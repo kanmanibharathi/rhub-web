@@ -64,6 +64,15 @@ https://templatemo.com/tm-569-edu-meeting
               </li>
               <li><a href="index.html">Statistics</a></li>
               <li><a href="index.html#contact">Contact Us</a></li>
+              <li class="user-profile">
+                <a href="javascript:void(0)" id="user-menu-toggle">
+                  <i class="fa fa-user"></i>
+                </a>
+                <div class="user-dropdown" id="user-dropdown">
+                  <a href="javascript:void(0)" id="show-login">Login</a>
+                  <a href="javascript:void(0)" id="show-signup">Sign Up</a>
+                </div>
+              </li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -148,6 +157,41 @@ https://templatemo.com/tm-569-edu-meeting
   <script src="assets/js/video.js"></script>
   <script src="assets/js/slick-slider.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script src="assets/js/user-auth.js"></script>
+
+  <!-- User Auth Modals -->
+  <div class="auth-modal" id="login-modal">
+    <div class="auth-modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Login</h2>
+      <form class="auth-form">
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div class="auth-links">
+        <p>Don't have an account? <a href="javascript:void(0)" id="switch-to-signup">Sign Up</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-modal" id="signup-modal">
+    <div class="auth-modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Sign Up</h2>
+      <form class="auth-form">
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Confirm Password" required>
+        <button type="submit">Create Account</button>
+      </form>
+      <div class="auth-links">
+        <p>Already have an account? <a href="javascript:void(0)" id="switch-to-login">Login</a></p>
+      </div>
+    </div>
+  </div>
+
   <script>
     //according to loftblog tut
     $('.nav li:first').addClass('active');
