@@ -2081,11 +2081,12 @@ responsive
   }
 
   .services {
-    margin-top: 60px;
+    margin-top: 30px;
+    position: relative;
   }
 
   section.upcoming-meetings {
-    padding-top: 400px;
+    padding-top: 80px;
   }
 
   section.upcoming-meetings .categories {
@@ -2128,6 +2129,15 @@ responsive
 
   .header-area .main-nav .nav li ul.sub-menu li a {
     color: #1f272b;
+  }
+
+  .services {
+    margin-top: 30px;
+    position: relative;
+  }
+
+  section.upcoming-meetings {
+    padding-top: 60px;
   }
 
 }
@@ -2444,20 +2454,22 @@ li.user-profile {
     display: inline-block;
     position: absolute;
     right: 92px;
-    /* Pull it more to the left to avoid hamburger menu overlap */
     top: -72px;
-    /* Position it inside the header bar */
     margin-left: 0;
     z-index: 1001;
+    background: transparent !important;
+    border: none !important;
   }
 
   #user-menu-toggle {
     background-color: #00a651 !important;
-    /* Force green color on mobile */
     opacity: 1 !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    width: 36px !important;
+    padding: 0 !important;
   }
 
-  /* Adjust dropdown for mobile positioning */
   .user-dropdown {
     right: -10px;
     top: 110%;
