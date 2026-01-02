@@ -155,6 +155,7 @@
 		dots: false,
 		nav: false,
 		autoplay: true,
+		autoplayTimeout: 3000,
 		margin: 30,
 		responsive: {
 			0: {
