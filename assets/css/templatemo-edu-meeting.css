@@ -1676,6 +1676,13 @@ section.contact-us .right-info {
   background-color: #d63384;
   border-radius: 20px;
   padding: 30px;
+  height: 100%;
+}
+
+@media (max-width: 1200px) {
+  section.contact-us .right-info {
+    padding: 20px;
+  }
 }
 
 section.contact-us .right-info ul li {
@@ -1703,6 +1710,14 @@ section.contact-us .right-info ul li span {
   font-size: 14px;
   color: #fff;
   font-weight: 700;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+section.contact-us .right-info ul li span a {
+  color: #fff !important;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .footer {
@@ -2428,15 +2443,24 @@ li.user-profile {
   li.user-profile {
     display: inline-block;
     position: absolute;
-    right: 70px;
-    /* Positioned left of the menu trigger */
-    top: 5px;
+    right: 92px;
+    /* Pull it more to the left to avoid hamburger menu overlap */
+    top: -72px;
+    /* Position it inside the header bar */
     margin-left: 0;
+    z-index: 1001;
+  }
+
+  #user-menu-toggle {
+    background-color: #00a651 !important;
+    /* Force green color on mobile */
+    opacity: 1 !important;
   }
 
   /* Adjust dropdown for mobile positioning */
   .user-dropdown {
-    right: -20px;
+    right: -10px;
+    top: 110%;
   }
 
   .auth-modal-content {
