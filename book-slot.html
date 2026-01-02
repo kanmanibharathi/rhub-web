@@ -157,11 +157,22 @@
                             <li class="has-sub">
                                 <a href="javascript:void(0)">Pages</a>
                                 <ul class="sub-menu">
-                                    <li><a href="events.html">Upcoming Events</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="products.html">Products</a></li>
+                                    <li><a href="courses.html">Courses</a></li>
                                     <li><a href="team.html">Meet Our Team</a></li>
+                                    <li><a href="https://www.youtube.com/@Research-Hub" target="_blank"
+                                            style="color: #FF0000 !important; font-weight: bold;">YouTube</a></li>
                                 </ul>
                             </li>
-                            <li><a href="index.html#courses">Statistics</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Statistics</a>
+                                <ul class="sub-menu">
+                                    <li><a href="lab-calculations.html">Lab Calculations</a></li>
+                                    <li><a href="https://researchhub.shinyapps.io/onewayanova/" target="_blank">Data
+                                            Analysis</a></li>
+                                </ul>
+                            </li>
                             <li><a href="index.html#contact">Contact Us</a></li>
                             <li class="user-profile">
                                 <a href="javascript:void(0)" id="user-menu-toggle">
@@ -441,6 +452,8 @@
                         class="fa fa-twitter"></i></a>
                 <a href="https://www.linkedin.com/in/research-hub-231190304/" target="_blank"
                     style="color: #fff; font-size: 18px;"><i class="fa fa-linkedin"></i></a>
+                <a href="https://www.youtube.com/@Research-Hub" target="_blank" style="color: #fff; font-size: 18px;"><i
+                        class="fa fa-youtube-play"></i></a>
                 <a href="https://whatsapp.com/channel/0029Va5Bt5oBfxo8vScNwJ0h" target="_blank"
                     style="color: #fff; font-size: 18px;"><i class="fa fa-whatsapp"></i></a>
             </div>
@@ -472,6 +485,9 @@
             </form>
             <div class="auth-links">
                 <p>Don't have an account? <a href="javascript:void(0)" id="switch-to-signup">Sign Up</a></p>
+                <p><a href="javascript:void(0)" id="show-forgot"
+                        style="font-size: 13px; color: #00a651; display: block; margin-top: 10px;">Forgot Password?</a>
+                </p>
             </div>
         </div>
     </div>
@@ -489,6 +505,22 @@
             </form>
             <div class="auth-links">
                 <p>Already have an account? <a href="javascript:void(0)" id="switch-to-login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="forgot-modal">
+        <div class="auth-modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Reset Password</h2>
+            <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Enter your email and we'll send you
+                instructions to reset your password.</p>
+            <form class="auth-form">
+                <input type="email" placeholder="Email Address" required>
+                <button type="submit">Send Reset Link</button>
+            </form>
+            <div class="auth-links">
+                <p>Back to <a href="javascript:void(0)" class="switch-to-login">Login</a></p>
             </div>
         </div>
     </div>

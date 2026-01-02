@@ -20,6 +20,38 @@
   <link rel="stylesheet" href="assets/css/templatemo-edu-meeting.css">
   <link rel="stylesheet" href="assets/css/owl.css">
   <link rel="stylesheet" href="assets/css/lightbox.css">
+  <style>
+    .reviews-scroll-container {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+      margin-top: 20px;
+      padding: 10px 0;
+    }
+
+    .reviews-track {
+      display: flex;
+      gap: 30px;
+      width: max-content;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .reviews-track.grabbing {
+      cursor: grabbing;
+    }
+
+    .review-item {
+      flex: 0 0 380px;
+      height: 100%;
+    }
+
+    @media (max-width: 767px) {
+      .review-item {
+        flex: 0 0 300px;
+      }
+    }
+  </style>
   <!--
 
 TemplateMo 569 Edu Meeting
@@ -56,11 +88,21 @@ https://templatemo.com/tm-569-edu-meeting
               <li class="has-sub">
                 <a href="javascript:void(0)">Pages</a>
                 <ul class="sub-menu">
-                  <li><a href="events.html">Upcoming Events</a></li>
+                  <li><a href="events.html">Events</a></li>
+                  <li><a href="products.html">Products</a></li>
+                  <li><a href="courses.html">Courses</a></li>
                   <li><a href="team.html">Meet Our Team</a></li>
+                  <li><a href="https://www.youtube.com/@Research-Hub" target="_blank"
+                      style="color: #FF0000 !important; font-weight: bold;">YouTube</a></li>
                 </ul>
               </li>
-              <li class="scroll-to-section"><a href="#courses">Statistics</a></li>
+              <li class="has-sub">
+                <a href="javascript:void(0)">Statistics</a>
+                <ul class="sub-menu">
+                  <li><a href="lab-calculations.html">Lab Calculations</a></li>
+                  <li><a href="https://researchhub.shinyapps.io/onewayanova/" target="_blank">Data Analysis</a></li>
+                </ul>
+              </li>
               <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
               <li class="user-profile">
                 <a href="javascript:void(0)" id="user-menu-toggle">
@@ -326,6 +368,19 @@ https://templatemo.com/tm-569-edu-meeting
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="calculator-icon-container"
+            style="text-align: right; margin-top: -20px; margin-bottom: 10px; padding-right: 15px;">
+            <a href="javascript:void(0)"
+              style="display: inline-block; width: 40px; height: 40px; line-height: 36px; text-align: center; border: 2px solid #00a651; border-radius: 50%; color: #00a651; transition: all 0.3s;"
+              onmouseover="this.style.backgroundColor='#00a651'; this.style.color='#fff';"
+              onmouseout="this.style.backgroundColor='transparent'; this.style.color='#00a651';">
+              <i class="fa fa-calculator" style="font-size: 18px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -390,49 +445,94 @@ https://templatemo.com/tm-569-edu-meeting
             <h2>What Our Clients Say</h2>
           </div>
         </div>
-        <div class="col-lg-4">
-          <div class="review-item">
-            <div class="user-info">
-              <div class="user-img">
-                <img src="assets/images/user-01.jpg" alt="Client 1">
+        <div class="col-lg-12">
+          <div class="reviews-scroll-container">
+            <div class="reviews-track" id="reviews-track">
+              <!-- Item 1 -->
+              <div class="review-item">
+                <div class="user-info">
+                  <div class="user-img">
+                    <img src="assets/images/reviews/client-01.png" alt="Sarah Johnson" draggable="false">
+                  </div>
+                  <div class="user-details">
+                    <h6>Sarah Johnson</h6>
+                    <span>Medical Researcher</span>
+                  </div>
+                </div>
+                <p>"The research support was exceptional. They helped me clean up plagiarism and format my manuscript
+                  perfectly for publication in a high-impact journal."</p>
               </div>
-              <div class="user-details">
-                <h6>Sarah Johnson</h6>
-                <span>Medical Researcher</span>
+              <!-- Item 2 -->
+              <div class="review-item">
+                <div class="user-info">
+                  <div class="user-img">
+                    <img src="assets/images/reviews/client-02.png" alt="Dr. Robert Smith" draggable="false">
+                  </div>
+                  <div class="user-details">
+                    <h6>Dr. Robert Smith</h6>
+                    <span>Assistant Professor</span>
+                  </div>
+                </div>
+                <p>"Excellent data analysis services. The statistical interpretation and bioinformatics support were
+                  crucial for my latest project's success."</p>
+              </div>
+              <!-- Item 3 -->
+              <div class="review-item">
+                <div class="user-info">
+                  <div class="user-img">
+                    <img src="assets/images/reviews/client-03.png" alt="Maria Garcia" draggable="false">
+                  </div>
+                  <div class="user-details">
+                    <h6>Maria Garcia</h6>
+                    <span>PhD Candidate</span>
+                  </div>
+                </div>
+                <p>"Their professional presentations and graphical illustrations really helped my thesis defense. I
+                  highly recommend their creative designs!"</p>
+              </div>
+              <!-- Item 4 -->
+              <div class="review-item">
+                <div class="user-info">
+                  <div class="user-img">
+                    <img src="assets/images/reviews/client-04.png" alt="Dr. James Wilson" draggable="false">
+                  </div>
+                  <div class="user-details">
+                    <h6>Dr. James Wilson</h6>
+                    <span>Biotechnology Expert</span>
+                  </div>
+                </div>
+                <p>"As a senior researcher, I value precision. Research Hub delivered top-notch results on complex
+                  molecular simulations that exceeded my expectations."</p>
+              </div>
+              <!-- Item 5 -->
+              <div class="review-item">
+                <div class="user-info">
+                  <div class="user-img">
+                    <img src="assets/images/reviews/client-05.png" alt="Dr. Anya Sharma" draggable="false">
+                  </div>
+                  <div class="user-details">
+                    <h6>Dr. Anya Sharma</h6>
+                    <span>Clinical Pathologist</span>
+                  </div>
+                </div>
+                <p>"Their hands-on training sessions are a game-changer. I didn't just get my data analyzed; I actually
+                  learned how to perform the tests myself."</p>
+              </div>
+              <!-- Item 6 -->
+              <div class="review-item">
+                <div class="user-info">
+                  <div class="user-img">
+                    <img src="assets/images/reviews/client-06.png" alt="David Miller" draggable="false">
+                  </div>
+                  <div class="user-details">
+                    <h6>David Miller</h6>
+                    <span>Environmental Scientist</span>
+                  </div>
+                </div>
+                <p>"From proposal drafting to final manuscript layout, the end-to-end guidance was seamless. My article
+                  was accepted with minimal revisions."</p>
               </div>
             </div>
-            <p>"The research support was exceptional. They helped me clean up plagiarism and format my manuscript
-              perfectly for publication in a high-impact journal."</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="review-item">
-            <div class="user-info">
-              <div class="user-img">
-                <img src="assets/images/user-02.jpg" alt="Client 2">
-              </div>
-              <div class="user-details">
-                <h6>Dr. Robert Smith</h6>
-                <span>Assistant Professor</span>
-              </div>
-            </div>
-            <p>"Excellent data analysis services. The statistical interpretation and bioinformatics support were crucial
-              for my latest project's success."</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="review-item">
-            <div class="user-info">
-              <div class="user-img">
-                <img src="assets/images/user-03.jpg" alt="Client 3">
-              </div>
-              <div class="user-details">
-                <h6>Maria Garcia</h6>
-                <span>PhD Candidate</span>
-              </div>
-            </div>
-            <p>"Their professional presentations and graphical illustrations really helped my thesis defense. I highly
-              recommend their creative designs!"</p>
           </div>
         </div>
       </div>
@@ -442,7 +542,7 @@ https://templatemo.com/tm-569-edu-meeting
   <section class="contact-us" id="contact">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 align-self-center">
+        <div class="col-lg-8">
           <div class="row">
             <div class="col-lg-12">
               <form id="contact" action="" method="post">
@@ -532,6 +632,9 @@ https://templatemo.com/tm-569-edu-meeting
                   <a href="https://www.linkedin.com/in/research-hub-231190304/" target="_blank"
                     style="color: #0077B5; font-size: 20px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 4px 6px rgba(0,0,0,0.3);"><i
                       class="fa fa-linkedin"></i></a>
+                  <a href="https://www.youtube.com/@Research-Hub" target="_blank"
+                    style="color: #FF0000; font-size: 20px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 4px 6px rgba(0,0,0,0.3);"><i
+                      class="fa fa-youtube-play"></i></a>
                   <a href="https://whatsapp.com/channel/0029Va5Bt5oBfxo8vScNwJ0h" target="_blank"
                     style="color: #25D366; font-size: 20px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 4px 6px rgba(0,0,0,0.3);"><i
                       class="fa fa-whatsapp"></i></a>
@@ -563,6 +666,9 @@ https://templatemo.com/tm-569-edu-meeting
         <a href="https://www.linkedin.com/in/research-hub-231190304/" target="_blank"
           style="color: #0077B5; font-size: 18px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 4px 6px rgba(0,0,0,0.3);"><i
             class="fa fa-linkedin"></i></a>
+        <a href="https://www.youtube.com/@Research-Hub" target="_blank"
+          style="color: #FF0000; font-size: 18px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 4px 6px rgba(0,0,0,0.3);"><i
+            class="fa fa-youtube-play"></i></a>
         <a href="https://whatsapp.com/channel/0029Va5Bt5oBfxo8vScNwJ0h" target="_blank"
           style="color: #25D366; font-size: 18px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 4px 6px rgba(0,0,0,0.3);"><i
             class="fa fa-whatsapp"></i></a>
@@ -596,6 +702,8 @@ https://templatemo.com/tm-569-edu-meeting
       </form>
       <div class="auth-links">
         <p>Don't have an account? <a href="javascript:void(0)" id="switch-to-signup">Sign Up</a></p>
+        <p><a href="javascript:void(0)" id="show-forgot"
+            style="font-size: 13px; color: #00a651; display: block; margin-top: 10px;">Forgot Password?</a></p>
       </div>
     </div>
   </div>
@@ -613,6 +721,22 @@ https://templatemo.com/tm-569-edu-meeting
       </form>
       <div class="auth-links">
         <p>Already have an account? <a href="javascript:void(0)" id="switch-to-login">Login</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-modal" id="forgot-modal">
+    <div class="auth-modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Reset Password</h2>
+      <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Enter your email and we'll send you instructions to
+        reset your password.</p>
+      <form class="auth-form">
+        <input type="email" placeholder="Email Address" required>
+        <button type="submit">Send Reset Link</button>
+      </form>
+      <div class="auth-links">
+        <p>Back to <a href="javascript:void(0)" class="switch-to-login">Login</a></p>
       </div>
     </div>
   </div>
@@ -663,6 +787,95 @@ https://templatemo.com/tm-569-edu-meeting
     $(window).scroll(function () {
       checkSection();
     });
+
+    // Infinite Auto-Scroll for Reviews
+    const track = document.getElementById('reviews-track');
+    if (track) {
+      const items = Array.from(track.children);
+      // Clone items for infinite effect
+      items.forEach(item => {
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+      });
+
+      let speed = 1.2; // Pixels per frame
+      let offset = 0;
+      let isPaused = false;
+      let isDragging = false;
+      let startX, scrollLeft;
+
+      function step() {
+        if (!isPaused && !isDragging) {
+          offset -= speed;
+          // Check if we've scrolled past the first set of items
+          const itemWidth = items[0].offsetWidth + 30; // item + gap
+          const totalWidth = itemWidth * items.length;
+
+          if (Math.abs(offset) >= totalWidth) {
+            offset = 0;
+          }
+          track.style.transform = `translateX(${offset}px)`;
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+
+      // Interaction listeners
+      track.parentElement.addEventListener('mouseenter', () => isPaused = true);
+      track.parentElement.addEventListener('mouseleave', () => {
+        if (!isDragging) isPaused = false;
+      });
+
+      // Touch/Mobile pause
+      track.parentElement.addEventListener('touchstart', () => isPaused = true);
+      track.parentElement.addEventListener('touchend', () => {
+        if (!isDragging) isPaused = false;
+      });
+
+      // Mouse Wheel Support
+      track.parentElement.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        offset -= e.deltaY * 2;
+        // Boundary check for manual scroll
+        const itemWidth = items[0].offsetWidth + 30;
+        const totalWidth = itemWidth * items.length;
+        if (offset > 0) offset = -totalWidth;
+        if (Math.abs(offset) >= totalWidth) offset = 0;
+        track.style.transform = `translateX(${offset}px)`;
+      });
+
+      // Drag Functionality
+      track.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        isPaused = true;
+        track.classList.add('grabbing');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = offset;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          isPaused = false;
+          track.classList.remove('grabbing');
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        offset = scrollLeft + walk;
+
+        // Infinite boundary check for drag
+        const itemWidth = items[0].offsetWidth + 30;
+        const totalWidth = itemWidth * items.length;
+        if (offset > 0) offset = -totalWidth;
+        if (Math.abs(offset) >= totalWidth) offset = 0;
+
+        track.style.transform = `translateX(${offset}px)`;
+      });
+    }
   </script>
 </body>
 
