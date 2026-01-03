@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>One Research Hub - Tissue Culture Calculations</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-edu-meeting.css">
+    <style>
+        .calc-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .calc-card:hover {
+            transform: translateY(-5px);
+            border-color: #00a651;
+        }
+
+        .calc-card h4 {
+            color: #00a651;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            color: #ccc;
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .calc-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calc-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .calc-select {
+            width: 95px;
+            background: #333;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            padding: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .calc-select option {
+            background: #333;
+            color: #fff;
+        }
+
+        .calc-btn {
+            width: 100%;
+            background: #d63384;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .calc-btn:hover {
+            background: #00a651;
+        }
+
+        .result-box {
+            background: rgba(0, 166, 81, 0.1);
+            border: 1px solid rgba(0, 166, 81, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            display: none;
+            color: #ccc;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .result-content {
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .step-heading {
+            color: #00a651;
+            font-weight: 700;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-style: normal;
+            display: block;
+        }
+
+        .instruction-title {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            font-style: normal;
+            display: block;
+            font-size: 16px;
+        }
+
+        /* Toggle Styles */
+        .mode-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
+            gap: 5px;
+        }
+
+        .mode-option {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #ccc;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .mode-option.active {
+            background: #00a651;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .mode-option:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="index.html" class="logo">
+                            <img src="assets/images/logo.png" alt="Research Hub Logo">
+                            <div class="logo-text">
+                                <span class="title">Research Hub</span>
+                                <span class="tagline">Where Research Meets Expertise</span>
+                            </div>
+                        </a>
+                        <ul class="nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="book-slot.html">Book Now</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Pages</a>
+                                <ul class="sub-menu">
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="products.html">Products</a></li>
+                                    <li><a href="courses.html">Courses</a></li>
+                                    <li><a href="team.html">Meet Our Team</a></li>
+                                    <li><a href="https://www.youtube.com/@Research-Hub" target="_blank"
+                                            style="color: #FF0000 !important; font-weight: bold;">YouTube</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)" class="active">Statistics</a>
+                                <ul class="sub-menu">
+                                    <li><a href="lab-calculations.html">Lab Calculations</a></li>
+                                    <li><a href="https://researchhub.shinyapps.io/onewayanova/" target="_blank">Data
+                                            Analysis</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="index.html#contact">Contact Us</a></li>
+                            <li class="user-profile">
+                                <a href="javascript:void(0)" id="user-menu-toggle">
+                                    <i class="fa fa-user"></i>
+                                </a>
+                                <div class="user-dropdown" id="user-dropdown">
+                                    <a href="javascript:void(0)" id="show-login">Login</a>
+                                    <a href="javascript:void(0)" id="show-signup">Sign Up</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <a class='menu-trigger'><span>Menu</span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="meetings-page" id="meetings"
+        style="padding-top: 150px; min-height: 100vh; display: flex; flex-direction: column;">
+        <div class="container" style="flex: 1;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="lab-calculations.html" class="back-to-lab">
+                        <i class="fa fa-home"></i>
+                        <span>Back to Lab Calculations</span>
+                    </a>
+                </div>
+                <div class="col-lg-12 text-center mb-5">
+                    <div class="section-heading">
+                        <h2>Tissue Culture Calculators</h2>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .sidebar-nav {
+                    position: sticky;
+                    top: 170px;
+                }
+
+                .nav-box {
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 15px;
+                    border-radius: 12px;
+                    margin-bottom: 15px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    color: #fff;
+                }
+
+                .nav-box i {
+                    width: 35px;
+                    height: 35px;
+                    background: rgba(0, 166, 81, 0.1);
+                    color: #00a651;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                }
+
+                .nav-box span {
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+
+                .nav-box:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translateX(5px);
+                    border-color: rgba(0, 166, 81, 0.3);
+                }
+
+                .nav-box.active {
+                    background: rgba(0, 166, 81, 0.15);
+                    border-color: #00a651;
+                }
+
+                .nav-box.active i {
+                    background: #00a651;
+                    color: #fff;
+                }
+
+                @media (max-width: 991px) {
+                    .sidebar-nav {
+                        position: relative;
+                        top: 0;
+                        margin-bottom: 30px;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        gap: 10px;
+                    }
+
+                    .nav-box {
+                        margin-bottom: 0;
+                        padding: 10px;
+                        flex-direction: column;
+                        text-align: center;
+                    }
+
+                    .nav-box span {
+                        font-size: 12px;
+                    }
+                }
+
+                @media (max-width: 575px) {
+                    .sidebar-nav {
+                        grid-template-columns: 1fr;
+                    }
+                }
+
+                .calc-section {
+                    transition: opacity 0.4s ease;
+                }
+
+                .back-to-lab {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: #fff;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 10px 18px;
+                    border-radius: 10px;
+                    font-weight: 500;
+                    font-size: 14px;
+                    transition: all 0.3s ease;
+                    margin-bottom: 20px;
+                }
+
+                .back-to-lab:hover {
+                    background: #00a651;
+                    color: #fff;
+                    border-color: #00a651;
+                    transform: translateY(-2px);
+                }
+
+                .back-to-lab i {
+                    font-size: 16px;
+                }
+            </style>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="sidebar-nav">
+                        <div class="nav-box active" onclick="showCalculator('converter')">
+                            <i class="fa fa-exchange"></i>
+                            <span>Converter (µM ⇄ mg/L)</span>
+                        </div>
+                        <div class="nav-box" onclick="showCalculator('pgr-calc')">
+                            <i class="fa fa-flask"></i>
+                            <span>PGR Preparation</span>
+                        </div>
+                        <div class="nav-box" onclick="showCalculator('ster-calc')">
+                            <i class="fa fa-shield"></i>
+                            <span>Sterilization Calculator</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <!-- Converter Section -->
+                    <div id="section-converter" class="calc-section">
+                        <div class="calc-card">
+                            <h3 class="text-center mb-4" style="color: #fff; font-weight: 700; font-size: 22px;">PGR
+                                Concentration Converter (µM ⇄ mg/L)</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Select PGR</label>
+                                        <select id="conv-pgr" class="calc-input w-100"
+                                            style="background: #333;"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4 align-items-center">
+                                <div class="col-md-5">
+                                    <div class="form-group mb-0">
+                                        <label class="form-label">Concentration (µM)</label>
+                                        <input type="number" id="conv-um" class="calc-input w-100"
+                                            placeholder="Enter µM" step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-center mt-4">
+                                    <i class="fa fa-exchange" style="color: #00a651; font-size: 20px;"></i>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group mb-0">
+                                        <label class="form-label">Concentration (mg/L)</label>
+                                        <input type="number" id="conv-mgl" class="calc-input w-100"
+                                            placeholder="Enter mg/L" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PGR Prep Section -->
+                    <div id="section-pgr-calc" class="calc-section" style="display: none;">
+                        <div class="calc-card">
+                            <h3 class="text-center mb-4" style="color: #fff; font-weight: 700; font-size: 22px;">PGR
+                                preparation calculator</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Plant Growth Regulator (PGR)</label>
+                                        <select id="pgr" class="calc-input w-100" style="background: #333;"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Calculation Mode</label>
+                                        <div class="mode-toggle" id="mode-toggle">
+                                            <div class="mode-option active" data-value="mass">Mass based (mg/L)</div>
+                                            <div class="mode-option" data-value="molar">Molar based (µM / mM)</div>
+                                        </div>
+                                        <input type="hidden" id="mode" value="mass">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4 align-items-end">
+                                <div class="col-md-12">
+                                    <h4
+                                        style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px; color: #fff;">
+                                        Stock Solution</h4>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group mb-md-0">
+                                        <label class="form-label">Stock concentration</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="stockConc" class="calc-input" value="1"
+                                                step="0.01">
+                                            <select id="stockUnit" class="calc-select">
+                                                <option value="mgml">mg/mL</option>
+                                                <option value="mM">mM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group mb-0">
+                                        <label class="form-label">Stock volume (mL)</label>
+                                        <input type="number" id="stockVol" class="calc-input w-100" value="100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4 align-items-end">
+                                <div class="col-md-12">
+                                    <h4
+                                        style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px; color: #fff;">
+                                        Final Medium</h4>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group mb-md-0">
+                                        <label class="form-label">Desired concentration</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="finalConc" class="calc-input" value="1"
+                                                step="0.01">
+                                            <select id="finalUnit" class="calc-select">
+                                                <option value="mgL">mg/L</option>
+                                                <option value="uM">µM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-md-0">
+                                        <label class="form-label">Medium volume (L)</label>
+                                        <input type="number" id="mediaVol" class="calc-input w-100" value="1"
+                                            step="0.1">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-md-end">
+                                    <button class="calc-btn" onclick="calculate()"
+                                        style="width: auto; padding: 10px 20px; margin-top: 0;">Calculate</button>
+                                </div>
+                            </div>
+                            <div id="result" class="result-box">
+                                <span class="instruction-title">Instructions:</span>
+                                <div id="result-text" class="result-content"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sterilization Section -->
+                    <div id="section-ster-calc" class="calc-section" style="display: none;">
+                        <div class="calc-card">
+                            <h3 class="text-center mb-4" style="color: #fff; font-weight: 700; font-size: 22px;">
+                                Sterilization Solution Calculator</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Sterilant Type</label>
+                                        <select id="sterilant" class="calc-input w-100" style="background: #333;">
+                                            <option value="naocl">Sodium Hypochlorite (NaOCl)</option>
+                                            <option value="caocl2">Ca(OCl)₂ (Calcium Hypochlorite)</option>
+                                            <option value="hgcl2">HgCl₂ (Mercuric Chloride)</option>
+                                            <option value="h2o2">H₂O₂ (Hydrogen Peroxide)</option>
+                                            <option value="ethanol">Ethanol (70%)</option>
+                                            <option value="agno3">AgNO₃ (Silver Nitrate)</option>
+                                            <option value="bromine">Bromine Water</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Calculation Mode</label>
+                                        <div class="mode-toggle" id="ster-mode-toggle">
+                                            <div class="mode-option active" data-value="percentage">Percentage (%)</div>
+                                            <div class="mode-option" data-value="molarity">Molarity (M)</div>
+                                        </div>
+                                        <input type="hidden" id="ster-mode" value="percentage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="liquid-stock-group" style="display: none;">
+                                <div class="row mt-4 align-items-end">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-0">
+                                            <label class="form-label">Stock Concentration (%)</label>
+                                            <input type="number" id="s1_stock_conc" class="calc-input w-100" value="5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4 align-items-end">
+                                <div class="col-md-5">
+                                    <div class="form-group mb-0">
+                                        <label class="form-label" id="ster-desired-label">Desired Conc. (%)</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="s1_desired_conc" class="calc-input" value="1">
+                                            <select id="ster-unit-select" class="calc-select"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="form-label">Final Volume (mL)</label>
+                                        <input type="number" id="s1_final_vol" class="calc-input w-100" value="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-md-end">
+                                    <button class="calc-btn" onclick="calculateSterilization()"
+                                        style="width: auto; padding: 10px 20px; margin-top: 0;">Calculate</button>
+                                </div>
+                            </div>
+                            <div id="ster-warning" class="result-box"
+                                style="background: rgba(214, 51, 132, 0.1); border-color: rgba(214, 51, 132, 0.3); color: #ff6b6b; display: none;">
+                                ⚠️ <span id="ster-warning-text"></span>
+                            </div>
+                            <div id="ster-result" class="result-box">
+                                <span class="instruction-title">Instructions:</span>
+                                <div id="ster-result-text" class="result-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer" style="padding: 20px 0px; background: transparent; margin-top: 50px;">
+            <p>Copyright © 2024 One Research Hub. All Rights Reserved.</p>
+        </div>
+    </section>
+
+    <script>
+        function showCalculator(id) {
+            document.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
+            document.getElementById('section-' + id).style.display = 'block';
+            document.querySelectorAll('.nav-box').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/user-auth.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const pgrData = {
+                "IAA": 175.18,
+                "NAA": 186.21,
+                "IBA": 203.24,
+                "2,4-D": 221.04,
+                "BAP": 225.25,
+                "GA3": 346.38,
+                "TDZ": 220.25
+            };
+
+            const pgrSelect = document.getElementById("pgr");
+            const modeInput = document.getElementById("mode");
+            const modeToggle = document.getElementById("mode-toggle");
+            const stockUnit = document.getElementById("stockUnit");
+            const finalUnit = document.getElementById("finalUnit");
+
+            // Mode switching logic via toggle
+            modeToggle.addEventListener("click", function (e) {
+                const option = e.target.closest(".mode-option");
+                if (!option) return;
+
+                // UI update
+                modeToggle.querySelectorAll(".mode-option").forEach(opt => opt.classList.remove("active"));
+                option.classList.add("active");
+
+                // Value update
+                const val = option.getAttribute("data-value");
+                modeInput.value = val;
+
+                // Unit sync
+                if (val === "mass") {
+                    stockUnit.value = "mgml";
+                    finalUnit.value = "mgL";
+                } else {
+                    stockUnit.value = "mM";
+                    finalUnit.value = "uM";
+                }
+            });
+
+            const convPgrSelect = document.getElementById("conv-pgr");
+            const convUmInput = document.getElementById("conv-um");
+            const convMglInput = document.getElementById("conv-mgl");
+
+            // Populate both PGR dropdowns
+            Object.keys(pgrData).forEach(pgr => {
+                const opt1 = document.createElement("option");
+                opt1.value = pgr; opt1.textContent = pgr;
+                pgrSelect.appendChild(opt1);
+
+                const opt2 = document.createElement("option");
+                opt2.value = pgr; opt2.textContent = pgr;
+                convPgrSelect.appendChild(opt2);
+            });
+
+            // Converter Logic
+            function updateConvMw() {
+                convUmInput.value = "";
+                convMglInput.value = "";
+            }
+
+            function convertUmToMgl() {
+                const um = parseFloat(convUmInput.value);
+                const mw = pgrData[convPgrSelect.value];
+                if (!isNaN(um)) {
+                    const mgl = (um * mw) / 1000;
+                    convMglInput.value = mgl.toFixed(4);
+                } else {
+                    convMglInput.value = "";
+                }
+            }
+
+            function convertMglToUm() {
+                const mgl = parseFloat(convMglInput.value);
+                const mw = pgrData[convPgrSelect.value];
+                if (!isNaN(mgl)) {
+                    const um = (mgl * 1000) / mw;
+                    convUmInput.value = um.toFixed(4);
+                } else {
+                    convUmInput.value = "";
+                }
+            }
+
+
+
+            convPgrSelect.addEventListener("change", updateConvMw);
+            convUmInput.addEventListener("input", convertUmToMgl);
+            convMglInput.addEventListener("input", convertMglToUm);
+
+            // Initialize MW
+            updateConvMw();
+
+            // Expose calculate() globally for button onclick
+            window.calculate = function () {
+                const pgr = pgrSelect.value;
+                const mw = pgrData[pgr];
+
+                const sConc = Number(document.getElementById("stockConc").value);
+                const sUnit = stockUnit.value;
+                const sVol = Number(document.getElementById("stockVol").value);
+
+                const fConc = Number(document.getElementById("finalConc").value);
+                const fUnit = finalUnit.value;
+                const mVol = Number(document.getElementById("mediaVol").value);
+
+                const resultBox = document.getElementById("result");
+                const resultText = document.getElementById("result-text");
+
+                // Basic validation
+                if (
+                    !pgr || sConc <= 0 || sVol <= 0 ||
+                    fConc <= 0 || mVol <= 0
+                ) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ Please enter valid, non-zero values in all fields.";
+                    return;
+                }
+
+                let stock_mM, stockWeight_mg;
+
+                // Stock calculation
+                if (sUnit === "mgml") {
+                    stockWeight_mg = sConc * sVol;
+                    stock_mM = (sConc * 1000) / mw;
+                } else {
+                    stockWeight_mg = sConc * mw * (sVol / 1000);
+                    stock_mM = sConc;
+                }
+
+                // Final concentration conversion
+                let final_mM;
+                if (fUnit === "mgL") {
+                    final_mM = fConc / mw;
+                } else {
+                    final_mM = fConc / 1000;
+                }
+
+                const volToAdd_L = (final_mM * mVol) / stock_mM;
+                const volToAdd_mL = volToAdd_L * 1000;
+                const volToAdd_uL = volToAdd_L * 1000000;
+
+                let displayVol, displayUnit;
+                if (volToAdd_mL >= 1) {
+                    displayVol = volToAdd_mL.toFixed(2);
+                    displayUnit = "mL";
+                } else {
+                    displayVol = volToAdd_uL.toFixed(2);
+                    displayUnit = "µL";
+                }
+
+                resultBox.style.display = "block";
+                resultBox.style.borderColor = "rgba(0, 166, 81, 0.3)";
+
+                const stockUnitText = sUnit === "mgml" ? "mg/mL" : "mM";
+                const finalUnitText = fUnit === "mgL" ? "mg/L" : "µM";
+                let displayWeight, weightUnit;
+                if (stockWeight_mg >= 1) {
+                    displayWeight = stockWeight_mg.toFixed(2);
+                    weightUnit = "mg";
+                } else {
+                    displayWeight = (stockWeight_mg * 1000).toFixed(2);
+                    weightUnit = "µg";
+                }
+
+                resultText.innerHTML = `
+                    <span class="step-heading">Step 1: Stock Preparation</span>
+                    To prepare a <b>${sConc} ${stockUnitText}</b> stock solution of <b>${pgr}</b> (MW: ${mw} g/mol), weigh <b>${displayWeight} ${weightUnit}</b> of the powder and dissolve it in a small amount of appropriate solvent (e.g., EtOH, NaOH, or water as per PGR requirement), then make up the volume to <b>${sVol} mL</b>.
+
+                    <span class="step-heading">Step 2: Media Preparation</span>
+                    To achieve a final concentration of <b>${fConc} ${finalUnitText}</b> in <b>${mVol} L</b> of culture medium, add <b>${displayVol} ${displayUnit}</b> of the prepared stock solution. 
+
+                    <div style="margin-top: 15px; font-size: 0.85em; opacity: 0.8;">
+                        <b>Note:</b> Filter sterilize the stock solution using a 0.22 µm syringe filter and add it to the medium after autoclaving, once it has cooled to approximately 45–50 °C.
+                    </div>
+                `;
+            };
+
+            // Sterilization Calculator Logic
+            const sterToggle = document.getElementById("ster-mode-toggle");
+            const sterModeInput = document.getElementById("ster-mode");
+            const sterTypeSelect = document.getElementById("sterilant");
+            const liquidGroup = document.getElementById("liquid-stock-group");
+            const unitSelect = document.getElementById("ster-unit-select");
+            const desiredLabel = document.getElementById("ster-desired-label");
+
+            const sterData = {
+                "naocl": { type: "liquid", mw: 74.44, rec: "0.5–1.5%", time: "5–15 min", use: "Soft tissues, leaves, nodal explants" },
+                "caocl2": { type: "solid", mw: 142.98, rec: "2–5% (w/v)", time: "10–30 min", use: "Woody, hard explants" },
+                "hgcl2": { type: "solid", mw: 271.50, rec: "0.05–0.1% (w/v)", time: "2–8 min", use: "Highly contaminated explants" },
+                "h2o2": { type: "liquid", mw: 34.01, rec: "3–6%", time: "5–10 min", use: "Seeds, delicate tissues" },
+                "ethanol": { type: "liquid", mw: 46.07, rec: "70%", time: "30–60 sec", use: "Surface sterilization of most explants" },
+                "agno3": { type: "solid", mw: 169.87, rec: "0.1–0.5%", time: "5–10 min", use: "Bacterial contamination" },
+                "bromine": { type: "liquid", mw: 159.81, rec: "Saturated", time: "2–5 min", use: "Rare, outdated method" }
+            };
+
+            function updateSterUI() {
+                const ster = sterData[sterTypeSelect.value];
+                const mode = sterModeInput.value;
+                const warningBox = document.getElementById("ster-warning");
+                const warningText = document.getElementById("ster-warning-text");
+
+                // Toggle visibility of stock concentration for solid vs liquid
+                liquidGroup.style.display = (ster.type === "liquid" && mode === "percentage") ? "block" : "none";
+
+                const unitSelect = document.getElementById("ster-unit-select");
+
+                // Update units and options
+                unitSelect.innerHTML = "";
+                if (mode === "molarity") {
+                    const optM = document.createElement("option");
+                    optM.value = "M"; optM.textContent = "M";
+                    const optmM = document.createElement("option");
+                    optmM.value = "mM"; optmM.textContent = "mM";
+                    unitSelect.appendChild(optM);
+                    unitSelect.appendChild(optmM);
+                    desiredLabel.textContent = "Desired Molarity";
+                } else {
+                    const optP = document.createElement("option");
+                    optP.value = "percent"; optP.textContent = "%";
+                    unitSelect.appendChild(optP);
+                    desiredLabel.textContent = "Desired Concentration (%)";
+                }
+
+                // Safety Logic
+                const sterKey = sterTypeSelect.value;
+                const desiredValue = Number(document.getElementById("s1_desired_conc").value);
+                let warnings = [];
+
+                if (sterKey === "hgcl2") {
+                    warnings.push("☠️ Toxic warning: Handle with extreme care!");
+                }
+
+                // Convert current input to an approximate percentage for threshold checking
+                let currentPercent = desiredValue;
+                if (mode === "molarity") {
+                    if (sterKey === "h2o2") {
+                        currentPercent = desiredValue * 3.4; // 1M ~ 3.4%
+                    } else if (sterKey === "naocl") {
+                        currentPercent = desiredValue * 7.45; // 1M ~ 7.45%
+                    } else if (ster.mw) {
+                        currentPercent = (desiredValue * ster.mw) / 10;
+                    }
+                }
+
+                if (sterKey === "h2o2") {
+                    if (currentPercent > 10) {
+                        warnings.push("⚠️ Corrosive: Concentration > 10% can cause skin burns.");
+                    } else {
+                        warnings.push("ℹ️ Oxidizing agent: Handle with care.");
+                    }
+                }
+
+                if (sterKey === "naocl") {
+                    if (currentPercent > 2) {
+                        warnings.push("⚠️ Tissue damage risk: Concentration > 2% is highly irritating.");
+                    } else {
+                        warnings.push("ℹ️ Bleaching agent: Avoid contact with skin/eyes.");
+                    }
+                }
+
+                if (warnings.length > 0) {
+                    warningBox.style.display = "block";
+                    warningText.innerHTML = warnings.join("<br>");
+                } else {
+                    warningBox.style.display = "none";
+                }
+            }
+
+            document.getElementById("s1_desired_conc").addEventListener("input", updateSterUI);
+
+            sterTypeSelect.addEventListener("change", updateSterUI);
+            sterToggle.addEventListener("click", function (e) {
+                const option = e.target.closest(".mode-option");
+                if (!option) return;
+                sterToggle.querySelectorAll(".mode-option").forEach(opt => opt.classList.remove("active"));
+                option.classList.add("active");
+                sterModeInput.value = option.getAttribute("data-value");
+                updateSterUI();
+            });
+
+            window.calculateSterilization = function () {
+                const sterKey = sterTypeSelect.value;
+                const ster = sterData[sterKey];
+                const mode = sterModeInput.value;
+                const finalVol = Number(document.getElementById("s1_final_vol").value);
+                const desiredValue = Number(document.getElementById("s1_desired_conc").value);
+                const desiredUnit = document.getElementById("ster-unit-select").value;
+                const resultBox = document.getElementById("ster-result");
+                const resultText = document.getElementById("ster-result-text");
+
+                if (desiredValue <= 0 || finalVol <= 0) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ Please enter valid, non-zero values.";
+                    return;
+                }
+
+                resultBox.style.display = "block";
+                resultBox.style.borderColor = "rgba(0, 166, 81, 0.3)";
+
+                let instructions = "";
+                const sterName = sterTypeSelect.options[sterTypeSelect.selectedIndex].text;
+
+                if (mode === "percentage") {
+                    if (ster.type === "liquid") {
+                        const stockConc = Number(document.getElementById("s1_stock_conc").value);
+                        const v1 = (desiredValue * finalVol) / stockConc;
+                        const water = finalVol - v1;
+                        instructions = `Measure <b>${v1.toFixed(2)} mL</b> of stock <b>${sterName}</b> (${stockConc}%) and add it to <b>${water.toFixed(2)} mL</b> of distilled water to make a final volume of <b>${finalVol} mL</b>.`;
+                    } else {
+                        const grams = (desiredValue * finalVol) / 100;
+                        const weightDisplay = grams >= 1 ? `${grams.toFixed(4)} g` : `${(grams * 1000).toFixed(2)} mg`;
+                        instructions = `Weigh <b>${weightDisplay}</b> of <b>${sterName}</b> powder and dissolve it in distilled water, making up the total volume to <b>${finalVol} mL</b>. ${sterKey === 'caocl2' ? '<br><br><b>Note:</b> Filter the solution before use to remove insoluble particles.' : ''}`;
+                    }
+                } else {
+                    // Molarity based
+                    let actualMValue = desiredUnit === "mM" ? desiredValue / 1000 : desiredValue;
+                    const grams = actualMValue * ster.mw * (finalVol / 1000);
+                    const weightDisplay = grams >= 1 ? `${grams.toFixed(4)} g` : `${(grams * 1000).toFixed(2)} mg`;
+                    instructions = `Weigh <b>${weightDisplay}</b> of <b>${sterName}</b> (MW: ${ster.mw} g/mol) and dissolve it in distilled water, making up the total volume to <b>${finalVol} mL</b> to achieve a <b>${desiredValue} ${desiredUnit}</b> solution.`;
+                }
+
+                resultText.innerHTML = `
+                    ${instructions}
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 0.85em; opacity: 0.9;">
+                        <b>📝 Expert Recommendation:</b><br>
+                        • <b>Rec. Working Conc:</b> ${ster.rec}<br>
+                        • <b>Exposure Time:</b> ${ster.time}<br>
+                        • <b>Typical Use:</b> ${ster.use}
+                    </div>
+                `;
+            };
+
+            // Init UI
+            updateSterUI();
+        });
+    </script>
+</body>
+
+</html>

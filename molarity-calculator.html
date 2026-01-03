@@ -163,10 +163,128 @@
         </div>
     </header>
 
+    <style>
+        .sidebar-nav {
+            position: sticky;
+            top: 170px;
+        }
+
+        .nav-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .nav-box i {
+            width: 35px;
+            height: 35px;
+            background: rgba(0, 166, 81, 0.1);
+            color: #00a651;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .nav-box span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-box:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+            border-color: rgba(0, 166, 81, 0.3);
+        }
+
+        .nav-box.active {
+            background: rgba(0, 166, 81, 0.15);
+            border-color: #00a651;
+        }
+
+        .nav-box.active i {
+            background: #00a651;
+            color: #fff;
+        }
+
+        @media (max-width: 991px) {
+            .sidebar-nav {
+                position: relative;
+                top: 0;
+                margin-bottom: 30px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .nav-box {
+                margin-bottom: 0;
+                padding: 10px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-box span {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .sidebar-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calc-section {
+            transition: opacity 0.4s ease;
+        }
+
+        .back-to-lab {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .back-to-lab:hover {
+            background: #00a651;
+            color: #fff;
+            border-color: #00a651;
+            transform: translateY(-2px);
+        }
+
+        .back-to-lab i {
+            font-size: 16px;
+        }
+    </style>
+
     <section class="meetings-page" id="meetings"
         style="padding-top: 150px; min-height: 100vh; display: flex; flex-direction: column;">
         <div class="container" style="flex: 1;">
             <div class="row">
+                <div class="col-lg-12">
+                    <a href="lab-calculations.html" class="back-to-lab">
+                        <i class="fa fa-home"></i>
+                        <span>Back to Lab Calculations</span>
+                    </a>
+                </div>
                 <div class="col-lg-12 text-center mb-5">
                     <div class="section-heading">
                         <h2>BioChem Calculator</h2>
@@ -175,369 +293,428 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-12 text-center mb-4">
-                    <h3 style="color: #fff; font-weight: 700;">Convert between moles and grams</h3>
-                </div>
-            </div>
-
-            <div class="row g-4 mb-5">
-                <!-- Calc 0a: Moles from grams -->
-                <div class="col-md-6">
-                    <div class="calc-card">
-                        <h4>Moles from grams</h4>
-                        <div class="form-group">
-                            <label class="form-label">Mass</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="m0_mass" class="calc-input" placeholder="Value">
-                                <select id="m0_mass_unit" class="calc-select">
-                                    <option value="1000">kilograms</option>
-                                    <option value="1">grams</option>
-                                    <option value="0.001">milligrams</option>
-                                    <option value="0.000001">micrograms</option>
-                                </select>
-                            </div>
+                <div class="col-lg-3">
+                    <div class="sidebar-nav">
+                        <div class="nav-box active" onclick="showCalculator('moles-grams')">
+                            <i class="fa fa-exchange"></i>
+                            <span>Moles ⇄ Grams</span>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Formula Weight (daltons)</label>
-                            <input type="number" id="m0_fw" class="calc-input" placeholder="e.g. 180.16">
+                        <div class="nav-box" onclick="showCalculator('molarity')">
+                            <i class="fa fa-flask"></i>
+                            <span>Molarity Calculator</span>
                         </div>
-                        <button class="calc-btn" onclick="calcMolesFromMass()" style="background: #ff6600;">Moles
-                            =</button>
-                        <div id="m0_result" class="result-box">
-                            Moles = <span class="result-value"></span>
+                        <div class="nav-box" onclick="showCalculator('dilution')">
+                            <i class="fa fa-tint"></i>
+                            <span>Dilution (C1V1 = C2V2)</span>
+                        </div>
+                        <div class="nav-box" onclick="showCalculator('unit-calc')">
+                            <i class="fa fa-calculator"></i>
+                            <span>Unit Activity</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Calc 0b: Grams from moles -->
-                <div class="col-md-6">
-                    <div class="calc-card">
-                        <h4>Grams from moles</h4>
-                        <div class="form-group">
-                            <label class="form-label">Moles</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="m1_moles" class="calc-input" placeholder="Value">
-                                <select id="m1_moles_unit" class="calc-select">
-                                    <option value="1">moles</option>
-                                    <option value="0.001">millimoles</option>
-                                    <option value="0.000001">micromoles</option>
-                                    <option value="1e-9">nanomoles</option>
-                                    <option value="1e-12">picomoles</option>
-                                    <option value="1e-15">femtomoles</option>
-                                </select>
+                <div class="col-lg-9">
+                    <!-- Calc Category 0: Moles and Grams -->
+                    <div id="section-moles-grams" class="calc-section">
+                        <div class="row">
+                            <div class="col-lg-12 text-center mb-4">
+                                <h3 style="color: #fff; font-weight: 700;">Convert between moles and grams</h3>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Formula Weight (daltons)</label>
-                            <input type="number" id="m1_fw" class="calc-input" placeholder="e.g. 180.16">
-                        </div>
-                        <button class="calc-btn" onclick="calcMassFromMoles()" style="background: #ff6600;">Grams
-                            =</button>
-                        <div id="m1_result" class="result-box">
-                            Mass = <span class="result-value"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <div class="row g-4 mb-5">
+                            <!-- Calc 0a: Moles from grams -->
+                            <div class="col-md-6">
+                                <div class="calc-card">
+                                    <h4>Moles from grams</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Mass</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="m0_mass" class="calc-input" placeholder="Value">
+                                            <select id="m0_mass_unit" class="calc-select">
+                                                <option value="1000">kilograms</option>
+                                                <option value="1">grams</option>
+                                                <option value="0.001">milligrams</option>
+                                                <option value="0.000001">micrograms</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Formula Weight (daltons)</label>
+                                        <input type="number" id="m0_fw" class="calc-input" placeholder="e.g. 180.16">
+                                    </div>
+                                    <button class="calc-btn" onclick="calcMolesFromMass()"
+                                        style="background: #ff6600;">Moles
+                                        =</button>
+                                    <div id="m0_result" class="result-box">
+                                        Moles = <span class="result-value"></span>
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="row mt-4">
-                <div class="col-lg-12 text-center mb-4">
-                    <h3 style="color: #fff; font-weight: 700;">Molarity Calculator</h3>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <!-- Calc 1: Mass from volume & concentration -->
-                <div class="col-md-6">
-                    <div class="calc-card">
-                        <h4>Mass from volume & concentration</h4>
-                        <div class="form-group">
-                            <label class="form-label">Concentration</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c1_conc" class="calc-input" placeholder="Value">
-                                <select id="c1_conc_unit" class="calc-select">
-                                    <option value="1">Molar (M)</option>
-                                    <option value="0.001">Millimolar (mM)</option>
-                                    <option value="0.000001">Micromolar (&micro;M)</option>
-                                    <option value="0.000000001">Nanomolar (nM)</option>
-                                    <option value="0.000000000001">Picomolar (pM)</option>
-                                    <option value="0.000000000000001">Femtomolar (fM)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Formula Weight (daltons)</label>
-                            <input type="number" id="c1_fw" class="calc-input" placeholder="e.g. 180.16">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Volume</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c1_vol" class="calc-input" placeholder="Value">
-                                <select id="c1_vol_unit" class="calc-select">
-                                    <option value="1">Liter (L)</option>
-                                    <option value="0.001">Milliliter (mL)</option>
-                                    <option value="0.000001">Microliter (&micro;L)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="calc-btn" onclick="calcMass()">Calculate Mass</button>
-                        <div id="c1_result" class="result-box">
-                            Mass = <span class="result-value"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Calc 2: Volume from mass & concentration -->
-                <div class="col-md-6">
-                    <div class="calc-card">
-                        <h4>Volume from mass & concentration</h4>
-                        <div class="form-group">
-                            <label class="form-label">Mass</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c2_mass" class="calc-input" placeholder="Value">
-                                <select id="c2_mass_unit" class="calc-select">
-                                    <option value="1000">Kilograms (kg)</option>
-                                    <option value="1">Grams (g)</option>
-                                    <option value="0.001">Milligrams (mg)</option>
-                                    <option value="0.000001">Micrograms (&micro;g)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Formula Weight (daltons)</label>
-                            <input type="number" id="c2_fw" class="calc-input" placeholder="e.g. 180.16">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Concentration</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c2_conc" class="calc-input" placeholder="Value">
-                                <select id="c2_conc_unit" class="calc-select">
-                                    <option value="1">Molar</option>
-                                    <option value="0.001">Millimolar</option>
-                                    <option value="0.000001">Micromolar</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="calc-btn" onclick="calcVolume()">Calculate Volume</button>
-                        <div id="c2_result" class="result-box">
-                            Volume = <span class="result-value"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Calc 3: Molarity from mass & volume -->
-                <div class="col-md-6">
-                    <div class="calc-card">
-                        <h4>Molarity from mass & volume</h4>
-                        <div class="form-group">
-                            <label class="form-label">Mass</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c3_mass" class="calc-input" placeholder="Value">
-                                <select id="c3_mass_unit" class="calc-select">
-                                    <option value="1">Grams</option>
-                                    <option value="0.001">Milligrams</option>
-                                    <option value="0.000001">Micrograms</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Formula Weight (daltons)</label>
-                            <input type="number" id="c3_fw" class="calc-input" placeholder="e.g. 180.16">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Volume</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c3_vol" class="calc-input" placeholder="Value">
-                                <select id="c3_vol_unit" class="calc-select">
-                                    <option value="1">Liter</option>
-                                    <option value="0.001">Milliliter</option>
-                                    <option value="0.000001">Microliter</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="calc-btn" onclick="calcMolarity()">Calculate Molarity</button>
-                        <div id="c3_result" class="result-box">
-                            Molarity = <span class="result-value"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Calc 4: Dilute a stock solution -->
-                <div class="col-md-6">
-                    <div class="calc-card">
-                        <h4>Dilute a stock solution (C1V1 = C2V2)</h4>
-                        <div class="form-group">
-                            <label class="form-label">Stock concentration (C1)</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c4_c1" class="calc-input" placeholder="Value">
-                                <select id="c4_c1_unit" class="calc-select">
-                                    <option value="1">Molar</option>
-                                    <option value="0.001">Millimolar</option>
-                                    <option value="0.000001">Micromolar</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Desired concentration (C2)</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c4_c2" class="calc-input" placeholder="Value">
-                                <select id="c4_c2_unit" class="calc-select">
-                                    <option value="1">Molar</option>
-                                    <option value="0.001">Millimolar</option>
-                                    <option value="0.000001">Micromolar</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Desired volume (V2)</label>
-                            <div class="calc-input-group">
-                                <input type="number" id="c4_v2" class="calc-input" placeholder="Value">
-                                <select id="c4_v2_unit" class="calc-select">
-                                    <option value="1">Liter</option>
-                                    <option value="0.001">Milliliter</option>
-                                    <option value="0.000001">Microliter</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="calc-btn" onclick="calcDilution()">Calculate Required Volume (V1)</button>
-                        <div id="c4_result" class="result-box">
-                            Required Volume = <span class="result-value"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div id="molarity_instruction_box" class="result-box"
-                        style="text-align: left; padding: 20px; display: none; max-width: 900px; margin: 0 auto; background: rgba(0, 166, 81, 0.1); border: 1px solid rgba(0, 166, 81, 0.3);">
-                        <div id="molarity_instruction_text"
-                            style="font-size: 14px; color: #ccc; font-style: italic; line-height: 1.6;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-5">
-                <div class="col-lg-12 text-center mb-4">
-                    <h3 style="color: #fff; font-weight: 700;">Unit calculator</h3>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-12">
-                    <div class="calc-card" style="max-width: 900px; margin: 0 auto;">
-                        <h4 class="text-center">Units per volum (C = A &times; m / V)</h4>
-
-                        <div class="row align-items-center mb-3">
-                            <div class="col-md-4"><label class="form-label mb-0">Activity (units per mass)</label>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="calc-input-group">
-                                    <input type="number" id="upv_a" class="calc-input" placeholder="Activity">
-                                    <select id="upv_a_unit_u" class="calc-select" style="width: 80px;">
-                                        <option value="1e-15">fU</option>
-                                        <option value="1e-12">pU</option>
-                                        <option value="1e-9">nU</option>
-                                        <option value="1e-6">&micro;U</option>
-                                        <option value="1e-3">mU</option>
-                                        <option value="1" selected>U</option>
-                                    </select>
-                                    <span style="color: #ccc; align-self: center;">per</span>
-                                    <select id="upv_a_unit_m" class="calc-select" style="width: 80px;">
-                                        <option value="1e-12">pg</option>
-                                        <option value="1e-9">ng</option>
-                                        <option value="1e-6">&micro;g</option>
-                                        <option value="1e-3" selected>mg</option>
-                                        <option value="1">g</option>
-                                        <option value="1000">kg</option>
-                                    </select>
+                            <!-- Calc 0b: Grams from moles -->
+                            <div class="col-md-6">
+                                <div class="calc-card">
+                                    <h4>Grams from moles</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Moles</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="m1_moles" class="calc-input" placeholder="Value">
+                                            <select id="m1_moles_unit" class="calc-select">
+                                                <option value="1">moles</option>
+                                                <option value="0.001">millimoles</option>
+                                                <option value="0.000001">micromoles</option>
+                                                <option value="1e-9">nanomoles</option>
+                                                <option value="1e-12">picomoles</option>
+                                                <option value="1e-15">femtomoles</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Formula Weight (daltons)</label>
+                                        <input type="number" id="m1_fw" class="calc-input" placeholder="e.g. 180.16">
+                                    </div>
+                                    <button class="calc-btn" onclick="calcMassFromMoles()"
+                                        style="background: #ff6600;">Grams
+                                        =</button>
+                                    <div id="m1_result" class="result-box">
+                                        Mass = <span class="result-value"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row align-items-center mb-3">
-                            <div class="col-md-4"><label class="form-label mb-0">Mass of solute (m)</label></div>
-                            <div class="col-md-8">
-                                <div class="calc-input-group">
-                                    <input type="number" id="upv_m" class="calc-input" placeholder="Mass">
-                                    <select id="upv_m_unit" class="calc-select">
-                                        <option value="1e-12">pg</option>
-                                        <option value="1e-9">ng</option>
-                                        <option value="1e-6">&micro;g</option>
-                                        <option value="0.001">mg</option>
-                                        <option value="1" selected>g</option>
-                                        <option value="1000">kg</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3">
-                            <div class="col-md-4"><label class="form-label mb-0">Total solution volume (V)</label>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="calc-input-group">
-                                    <input type="number" id="upv_v" class="calc-input" placeholder="Volume">
-                                    <select id="upv_v_unit" class="calc-select">
-                                        <option value="1e-15">fL</option>
-                                        <option value="1e-12">pL</option>
-                                        <option value="1e-9">nL</option>
-                                        <option value="1e-6">&micro;L</option>
-                                        <option value="1e-3" selected>mL</option>
-                                        <option value="1">L</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3">
-                            <div class="col-md-4"><label class="form-label mb-0">Concentration (C)</label></div>
-                            <div class="col-md-8">
-                                <div class="calc-input-group">
-                                    <input type="number" id="upv_c" class="calc-input" placeholder="Concentration">
-                                    <select id="upv_c_unit_u" class="calc-select" style="width: 80px;">
-                                        <option value="1e-15">fU</option>
-                                        <option value="1e-12">pU</option>
-                                        <option value="1e-9">nU</option>
-                                        <option value="1e-6">&micro;U</option>
-                                        <option value="1e-3">mU</option>
-                                        <option value="1" selected>U</option>
-                                    </select>
-                                    <span style="color: #ccc; align-self: center;">per</span>
-                                    <select id="upv_c_unit_v" class="calc-select" style="width: 80px;">
-                                        <option value="1e-15">fL</option>
-                                        <option value="1e-12">pL</option>
-                                        <option value="1e-9">nL</option>
-                                        <option value="1e-6">&micro;L</option>
-                                        <option value="1e-3" selected>mL</option>
-                                        <option value="1">L</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
+                    <!-- Calc Category 1: Molarity -->
+                    <div id="section-molarity" class="calc-section" style="display: none;">
                         <div class="row mt-4">
-                            <div class="col-md-6 mb-2"><button class="calc-btn" onclick="calcUPV()">Calculate</button>
+                            <div class="col-lg-12 text-center mb-4">
+                                <h3 style="color: #fff; font-weight: 700;">Molarity Calculator</h3>
                             </div>
-                            <div class="col-md-6 mb-2"><button class="calc-btn" style="background: #333;"
-                                    onclick="clearUPV()">Clear All</button></div>
                         </div>
+                        <div class="row g-4">
+                            <!-- Calc 1: Mass from volume & concentration -->
+                            <div class="col-md-6">
+                                <div class="calc-card">
+                                    <h4>Mass from volume & concentration</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Concentration</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c1_conc" class="calc-input" placeholder="Value">
+                                            <select id="c1_conc_unit" class="calc-select">
+                                                <option value="1">Molar (M)</option>
+                                                <option value="0.001">Millimolar (mM)</option>
+                                                <option value="0.000001">Micromolar (&micro;M)</option>
+                                                <option value="0.000000001">Nanomolar (nM)</option>
+                                                <option value="0.000000000001">Picomolar (pM)</option>
+                                                <option value="0.000000000000001">Femtomolar (fM)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Formula Weight (daltons)</label>
+                                        <input type="number" id="c1_fw" class="calc-input" placeholder="e.g. 180.16">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Volume</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c1_vol" class="calc-input" placeholder="Value">
+                                            <select id="c1_vol_unit" class="calc-select">
+                                                <option value="1">Liter (L)</option>
+                                                <option value="0.001">Milliliter (mL)</option>
+                                                <option value="0.000001">Microliter (&micro;L)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="calc-btn" onclick="calcMass()">Calculate Mass</button>
+                                    <div id="c1_result" class="result-box">
+                                        Mass = <span class="result-value"></span>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div id="upv_result" class="result-box mt-3" style="text-align: left; padding: 20px;">
-                            <div id="upv_instruction"
-                                style="font-size: 14px; color: #ccc; font-style: italic; line-height: 1.6;"></div>
+                            <!-- Calc 2: Volume from mass & concentration -->
+                            <div class="col-md-6">
+                                <div class="calc-card">
+                                    <h4>Volume from mass & concentration</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Mass</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c2_mass" class="calc-input" placeholder="Value">
+                                            <select id="c2_mass_unit" class="calc-select">
+                                                <option value="1000">Kilograms (kg)</option>
+                                                <option value="1">Grams (g)</option>
+                                                <option value="0.001">Milligrams (mg)</option>
+                                                <option value="0.000001">Micrograms (&micro;g)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Formula Weight (daltons)</label>
+                                        <input type="number" id="c2_fw" class="calc-input" placeholder="e.g. 180.16">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Concentration</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c2_conc" class="calc-input" placeholder="Value">
+                                            <select id="c2_conc_unit" class="calc-select">
+                                                <option value="1">Molar</option>
+                                                <option value="0.001">Millimolar</option>
+                                                <option value="0.000001">Micromolar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="calc-btn" onclick="calcVolume()">Calculate Volume</button>
+                                    <div id="c2_result" class="result-box">
+                                        Volume = <span class="result-value"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Calc 3: Molarity from mass & volume -->
+                            <div class="col-md-6">
+                                <div class="calc-card">
+                                    <h4>Molarity from mass & volume</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Mass</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c3_mass" class="calc-input" placeholder="Value">
+                                            <select id="c3_mass_unit" class="calc-select">
+                                                <option value="1">Grams</option>
+                                                <option value="0.001">Milligrams</option>
+                                                <option value="0.000001">Micrograms</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Formula Weight (daltons)</label>
+                                        <input type="number" id="c3_fw" class="calc-input" placeholder="e.g. 180.16">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Volume</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c3_vol" class="calc-input" placeholder="Value">
+                                            <select id="c3_vol_unit" class="calc-select">
+                                                <option value="1">Liter</option>
+                                                <option value="0.001">Milliliter</option>
+                                                <option value="0.000001">Microliter</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="calc-btn" onclick="calcMolarity()">Calculate Molarity</button>
+                                    <div id="c3_result" class="result-box">
+                                        Molarity = <span class="result-value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calc Category 2: Dilution -->
+                    <div id="section-dilution" class="calc-section" style="display: none;">
+                        <div class="row mt-4">
+                            <div class="col-lg-12 text-center mb-4">
+                                <h3 style="color: #fff; font-weight: 700;">Dilution Calculator</h3>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <div class="calc-card">
+                                    <h4>Dilute a stock solution (C1V1 = C2V2)</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Stock concentration (C1)</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c4_c1" class="calc-input" placeholder="Value">
+                                            <select id="c4_c1_unit" class="calc-select">
+                                                <option value="1">Molar</option>
+                                                <option value="0.001">Millimolar</option>
+                                                <option value="0.000001">Micromolar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Desired concentration (C2)</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c4_c2" class="calc-input" placeholder="Value">
+                                            <select id="c4_c2_unit" class="calc-select">
+                                                <option value="1">Molar</option>
+                                                <option value="0.001">Millimolar</option>
+                                                <option value="0.000001">Micromolar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Desired volume (V2)</label>
+                                        <div class="calc-input-group">
+                                            <input type="number" id="c4_v2" class="calc-input" placeholder="Value">
+                                            <select id="c4_v2_unit" class="calc-select">
+                                                <option value="1">Liter</option>
+                                                <option value="0.001">Milliliter</option>
+                                                <option value="0.000001">Microliter</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="calc-btn" onclick="calcDilution()">Calculate Required Volume
+                                        (V1)</button>
+                                    <div id="c4_result" class="result-box">
+                                        Required Volume = <span class="result-value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div id="molarity_instruction_box" class="result-box"
+                                    style="text-align: left; padding: 20px; display: none; margin: 0 auto; background: rgba(0, 166, 81, 0.1); border: 1px solid rgba(0, 166, 81, 0.3);">
+                                    <div id="molarity_instruction_text"
+                                        style="font-size: 14px; color: #ccc; font-style: italic; line-height: 1.6;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calc Category 3: Unit calculator -->
+                    <div id="section-unit-calc" class="calc-section" style="display: none;">
+                        <div class="row mt-5">
+                            <div class="col-lg-12 text-center mb-4">
+                                <h3 style="color: #fff; font-weight: 700;">Unit calculator</h3>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div class="calc-card" style="max-width: 900px; margin: 0 auto;">
+                                    <h4 class="text-center">Units per volum (C = A &times; m / V)</h4>
+
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-md-4"><label class="form-label mb-0">Activity (units per
+                                                mass)</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="calc-input-group">
+                                                <input type="number" id="upv_a" class="calc-input"
+                                                    placeholder="Activity">
+                                                <select id="upv_a_unit_u" class="calc-select" style="width: 80px;">
+                                                    <option value="1e-15">fU</option>
+                                                    <option value="1e-12">pU</option>
+                                                    <option value="1e-9">nU</option>
+                                                    <option value="1e-6">&micro;U</option>
+                                                    <option value="1e-3">mU</option>
+                                                    <option value="1" selected>U</option>
+                                                </select>
+                                                <span style="color: #ccc; align-self: center;">per</span>
+                                                <select id="upv_a_unit_m" class="calc-select" style="width: 80px;">
+                                                    <option value="1e-12">pg</option>
+                                                    <option value="1e-9">ng</option>
+                                                    <option value="1e-6">&micro;g</option>
+                                                    <option value="1e-3" selected>mg</option>
+                                                    <option value="1">g</option>
+                                                    <option value="1000">kg</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-md-4"><label class="form-label mb-0">Mass of solute
+                                                (m)</label></div>
+                                        <div class="col-md-8">
+                                            <div class="calc-input-group">
+                                                <input type="number" id="upv_m" class="calc-input" placeholder="Mass">
+                                                <select id="upv_m_unit" class="calc-select">
+                                                    <option value="1e-12">pg</option>
+                                                    <option value="1e-9">ng</option>
+                                                    <option value="1e-6">&micro;g</option>
+                                                    <option value="0.001">mg</option>
+                                                    <option value="1" selected>g</option>
+                                                    <option value="1000">kg</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-md-4"><label class="form-label mb-0">Total solution volume
+                                                (V)</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="calc-input-group">
+                                                <input type="number" id="upv_v" class="calc-input" placeholder="Volume">
+                                                <select id="upv_v_unit" class="calc-select">
+                                                    <option value="1e-15">fL</option>
+                                                    <option value="1e-12">pL</option>
+                                                    <option value="1e-9">nL</option>
+                                                    <option value="1e-6">&micro;L</option>
+                                                    <option value="1e-3" selected>mL</option>
+                                                    <option value="1">L</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-md-4"><label class="form-label mb-0">Concentration
+                                                (C)</label></div>
+                                        <div class="col-md-8">
+                                            <div class="calc-input-group">
+                                                <input type="number" id="upv_c" class="calc-input"
+                                                    placeholder="Concentration">
+                                                <select id="upv_c_unit_u" class="calc-select" style="width: 80px;">
+                                                    <option value="1e-15">fU</option>
+                                                    <option value="1e-12">pU</option>
+                                                    <option value="1e-9">nU</option>
+                                                    <option value="1e-6">&micro;U</option>
+                                                    <option value="1e-3">mU</option>
+                                                    <option value="1" selected>U</option>
+                                                </select>
+                                                <span style="color: #ccc; align-self: center;">per</span>
+                                                <select id="upv_c_unit_v" class="calc-select" style="width: 80px;">
+                                                    <option value="1e-15">fL</option>
+                                                    <option value="1e-12">pL</option>
+                                                    <option value="1e-9">nL</option>
+                                                    <option value="1e-6">&micro;L</option>
+                                                    <option value="1e-3" selected>mL</option>
+                                                    <option value="1">L</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-6 mb-2"><button class="calc-btn"
+                                                onclick="calcUPV()">Calculate</button>
+                                        </div>
+                                        <div class="col-md-6 mb-2"><button class="calc-btn" style="background: #333;"
+                                                onclick="clearUPV()">Clear All</button>
+                                        </div>
+                                    </div>
+
+                                    <div id="upv_result" class="result-box mt-3"
+                                        style="text-align: left; padding: 20px;">
+                                        <div id="upv_instruction"
+                                            style="font-size: 14px; color: #ccc; font-style: italic; line-height: 1.6;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
 
-        <div class="footer" style="padding: 20px 0px; background: transparent; margin-top: 50px;">
-            <p>Copyright © 2024 One Research Hub. All Rights Reserved.</p>
-        </div>
+            <div class="footer" style="padding: 20px 0px; background: transparent; margin-top: 50px;">
+                <p>Copyright © 2024 One Research Hub. All Rights Reserved.</p>
+            </div>
     </section>
 
+    <script>
+        function showCalculator(id) {
+            document.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
+            document.getElementById('section-' + id).style.display = 'block';
+            document.querySelectorAll('.nav-box').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+    </script>
     <!-- Scripts -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="assets/js/custom.js"></script>
