@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>One Research Hub - Buffer Recipes</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-edu-meeting.css">
+    <style>
+        .calc-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .calc-card:hover {
+            transform: translateY(-5px);
+            border-color: #00a651;
+        }
+
+        .calc-card h4 {
+            color: #00a651;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            color: #ccc;
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .calc-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calc-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+        .calc-select {
+            width: 120px;
+            background: #333;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            padding: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .calc-btn {
+            width: 100%;
+            background: #d63384;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .calc-btn:hover {
+            background: #00a651;
+        }
+
+        .result-box {
+            background: rgba(0, 166, 81, 0.1);
+            border: 1px solid rgba(0, 166, 81, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-title {
+            color: #00a651;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(0, 166, 81, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .recipe-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recipe-item {
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .recipe-item b {
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            position: sticky;
+            top: 170px;
+        }
+
+        .nav-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .nav-box i {
+            width: 35px;
+            height: 35px;
+            background: rgba(0, 166, 81, 0.1);
+            color: #00a651;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .nav-box span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-box:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+            border-color: rgba(0, 166, 81, 0.3);
+        }
+
+        .nav-box.active {
+            background: rgba(0, 166, 81, 0.15);
+            border-color: #00a651;
+        }
+
+        .nav-box.active i {
+            background: #00a651;
+            color: #fff;
+        }
+
+        .back-to-lab {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-decoration: none !important;
+        }
+
+        .back-to-lab:hover {
+            background: #00a651;
+            color: #fff;
+            border-color: #00a651;
+            transform: translateY(-2px);
+        }
+
+        .instructions {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        /* Toggle Styles */
+        .mode-toggle {
+            display: inline-flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .mode-option {
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #ccc;
+            transition: all 0.3s ease;
+            user-select: none;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .mode-option.active {
+            background: #00a651;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .mode-option input {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="index.html" class="logo">
+                            <img src="assets/images/logo.png" alt="Research Hub Logo">
+                            <div class="logo-text">
+                                <span class="title">Research Hub</span>
+                                <span class="tagline">Where Research Meets Expertise</span>
+                            </div>
+                        </a>
+                        <ul class="nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="book-slot.html">Book Now</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">Pages</a>
+                                <ul class="sub-menu">
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="products.html">Products</a></li>
+                                    <li><a href="courses.html">Courses</a></li>
+                                    <li><a href="team.html">Meet Our Team</a></li>
+                                    <li><a href="https://www.youtube.com/@Research-Hub" target="_blank"
+                                            style="color: #FF0000 !important; font-weight: bold;">YouTube</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)" class="active">Statistics</a>
+                                <ul class="sub-menu">
+                                    <li><a href="lab-calculations.html">Lab Calculations</a></li>
+                                    <li><a href="buffer-recipes.html">Buffer Recipes</a></li>
+                                    <li><a href="buffer-recipes.html?id=tris-hcl">Tris Calculator</a></li>
+                                    <li><a href="buffer-recipes.html?id=borate">Borate Calculator</a></li>
+                                    <li><a href="https://researchhub.shinyapps.io/onewayanova/" target="_blank">Data
+                                            Analysis</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="index.html#contact">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'><span>Menu</span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="meetings-page" id="meetings"
+        style="padding-top: 150px; min-height: 100vh; display: flex; flex-direction: column;">
+        <div class="container" style="flex: 1;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="lab-calculations.html" class="back-to-lab">
+                        <i class="fa fa-home"></i>
+                        <span>Back to Lab Calculations</span>
+                    </a>
+                </div>
+                <div class="col-lg-12 text-center mb-5">
+                    <div class="section-heading">
+                        <h2>Buffer Recipes</h2>
+                        <p style="color: #ccc; margin-top: 10px;">Quick recipes for common laboratory buffers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="sidebar-nav">
+                        <div class="nav-box active" onclick="showBuffer('pbs', this)">
+                            <i class="fa fa-flask"></i>
+                            <span>PBS (10X)</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('tris-hcl', this)">
+                            <i class="fa fa-filter"></i>
+                            <span>Tris Buffer</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('tae', this)">
+                            <i class="fa fa-flask"></i>
+                            <span>TAE (50X)</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('tbe', this)">
+                            <i class="fa fa-flask"></i>
+                            <span>TBE (10X)</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('te', this)">
+                            <i class="fa fa-tint"></i>
+                            <span>TE Buffer</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('citrate', this)">
+                            <i class="fa fa-thermometer-half"></i>
+                            <span>Citrate Buffer</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('acetate', this)">
+                            <i class="fa fa-flask"></i>
+                            <span>Acetate Buffer</span>
+                        </div>
+                        <div class="nav-box" onclick="showBuffer('borate', this)">
+                            <i class="fa fa-flask"></i>
+                            <span>Borate Buffer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <!-- PBS Section -->
+                    <div id="section-pbs" class="buffer-section">
+                        <div class="calc-card">
+                            <h4>PBS (Phosphate Buffered Saline) - 10X Stock</h4>
+                            <div class="form-group">
+                                <label class="form-label">Desired Final Volume</label>
+                                <div class="calc-input-group">
+                                    <input type="number" id="pbs_vol" class="calc-input" value="1000">
+                                    <select class="calc-select" id="pbs_unit">
+                                        <option value="1">mL</option>
+                                        <option value="1000">L</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="calc-btn" onclick="calcPBS()">Generate Recipe</button>
+
+                            <div id="pbs_result" class="result-box">
+                                <div class="result-title">10X PBS Recipe</div>
+                                <ul class="recipe-list" id="pbs_recipe_list"></ul>
+                                <div class="instructions">
+                                    <strong>Notes:</strong> Dissolve in ~80% of final volume deionized water. Adjust pH
+                                    to 7.4 with HCl if necessary. Top up to final volume. Autoclave for sterilization.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tris-HCl Section -->
+                    <div id="section-tris-hcl" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <h4>Tris Buffer Preparation</h4>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Desired pH: <span id="tris_ph_val"
+                                                style="color: #00a651; font-weight: 700;">8.0</span></label>
+                                        <input type="range" id="tris_ph" class="calc-range" value="8.0" step="0.1"
+                                            min="7.0" max="9.0"
+                                            oninput="document.getElementById('tris_ph_val').textContent = this.value">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Temperature: <span id="tris_temp_val"
+                                                style="color: #00a651; font-weight: 700;">25</span>°C</label>
+                                        <input type="range" id="tris_temp" class="calc-range" value="25" step="1"
+                                            min="4" max="50"
+                                            oninput="document.getElementById('tris_temp_val').textContent = this.value">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Desired Molarity</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option">
+                                                    <input type="radio" name="tris_m_unit" value="0.000001">µM
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="tris_m_unit" value="0.001">mM
+                                                </label>
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="tris_m_unit" value="1" checked>M
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="tris_m" class="calc-input w-100" value="0.1"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="tris_vol_unit" value="1" checked>mL
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="tris_vol_unit" value="1000">L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="tris_vol" class="calc-input w-100" value="1000">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Preparation Method</label>
+                                        <div class="mode-toggle w-100">
+                                            <label class="mode-option active w-50" onclick="toggleTrisMethod('solids')">
+                                                <input type="radio" name="tris_method" value="solids" checked>Solids
+                                            </label>
+                                            <label class="mode-option w-50" onclick="toggleTrisMethod('stocks')">
+                                                <input type="radio" name="tris_method" value="stocks">Stocks
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tris Solids Options -->
+                            <div id="tris_solids_group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Compound Constants (MW g/mol)</label>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <input type="number" id="tris_mw_base" class="calc-input w-100"
+                                                        value="121.14" readonly
+                                                        style="background: rgba(255,255,255,0.05); color: #888;">
+                                                    <small style="font-size: 10px; color: #777;">Tris Base</small>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" id="tris_mw_acid" class="calc-input w-100"
+                                                        value="157.60" readonly
+                                                        style="background: rgba(255,255,255,0.05); color: #888;">
+                                                    <small style="font-size: 10px; color: #777;">Tris-HCl</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tris Stocks Options -->
+                            <div id="tris_stocks_group" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Tris Base (M)</label>
+                                            <input type="number" id="tris_stock_base" class="calc-input w-100"
+                                                value="1.0" step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Tris-HCl (M)</label>
+                                            <input type="number" id="tris_stock_acid" class="calc-input w-100"
+                                                value="1.0" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="calc-btn" onclick="calcTris()">Generate Recipe</button>
+
+                            <div id="tris_result" class="result-box">
+                                <div class="result-title">Tris Buffer Recipe (HH Temperature-Corrected)</div>
+                                <ul class="recipe-list" id="tris_recipe_list"></ul>
+                                <div id="tris_pka_display"
+                                    style="font-size: 12px; color: #00a651; margin-bottom: 10px; font-weight: 500;">
+                                </div>
+                                <div class="instructions" id="tris_instructions"></div>
+                                <div
+                                    style="margin-top: 20px; font-size: 13px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                    <strong style="color: #00a651;">📝 Note:</strong><br>
+                                    <span id="tris_sop_text"
+                                        style="font-style: italic; display: block; margin-top: 8px; line-height: 1.5;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAE Section -->
+                    <div id="section-tae" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <h4>TAE Buffer (Tris-Acetate-EDTA) - 50X Stock</h4>
+                            <div class="form-group">
+                                <label class="form-label">Final Volume (mL)</label>
+                                <input type="number" id="tae_vol" class="calc-input" value="1000">
+                            </div>
+                            <button class="calc-btn" onclick="calcTAE()">Generate Recipe</button>
+
+                            <div id="tae_result" class="result-box">
+                                <div class="result-title">50X TAE Recipe</div>
+                                <ul class="recipe-list" id="tae_recipe_list"></ul>
+                                <div class="instructions">
+                                    <strong>Notes:</strong> 50X Stock (2M Tris, 1M Acetate, 50mM EDTA). Dilute to 1X for
+                                    electrophoresis.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TBE Section -->
+                    <div id="section-tbe" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <h4>TBE Buffer (Tris-Borate-EDTA) - 10X Stock</h4>
+                            <div class="form-group">
+                                <label class="form-label">Final Volume (mL)</label>
+                                <input type="number" id="tbe_vol" class="calc-input" value="1000">
+                            </div>
+                            <button class="calc-btn" onclick="calcTBE()">Generate Recipe</button>
+
+                            <div id="tbe_result" class="result-box">
+                                <div class="result-title">10X TBE Recipe</div>
+                                <ul class="recipe-list" id="tbe_recipe_list"></ul>
+                                <div class="instructions">
+                                    <strong>Notes:</strong> 10X TBE (0.89M Tris, 0.89M Boric Acid, 20mM EDTA). Typically
+                                    used at 0.5X or 1X.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TE Section -->
+                    <div id="section-te" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 class="mb-0">TE Buffer (Tris-EDTA) Calculator</h4>
+                                <span class="badge"
+                                    style="background: rgba(0,166,81,0.1); color: #00a651; border: 1px solid rgba(0,166,81,0.2); padding: 5px 12px; border-radius: 20px; font-size: 11px;">10:1
+                                    Ratio Model</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">TE Strength: <span id="te_strength_val"
+                                                style="color: #00a651; font-weight: 700;">1</span>X</label>
+                                        <input type="range" id="te_strength" class="calc-range" value="1" step="1"
+                                            min="1" max="10"
+                                            oninput="document.getElementById('te_strength_val').innerText = this.value">
+                                        <div class="d-flex justify-content-between"
+                                            style="font-size: 10px; color: #555;">
+                                            <span>1X</span>
+                                            <span>10X</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Desired pH: <span id="te_ph_val"
+                                                style="color: #00a651; font-weight: 700;">8.00</span></label>
+                                        <input type="range" id="te_ph" class="calc-range" value="8.0" step="0.05"
+                                            min="7.5" max="8.5"
+                                            oninput="document.getElementById('te_ph_val').innerText = parseFloat(this.value).toFixed(2)">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Temperature: <span id="te_temp_val"
+                                                style="color: #00a651; font-weight: 700;">25</span>°C</label>
+                                        <input type="range" id="te_temp" class="calc-range" value="25" step="1" min="4"
+                                            max="50"
+                                            oninput="document.getElementById('te_temp_val').innerText = this.value">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="te_vol_unit" value="1" checked>mL
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="te_vol_unit" value="1000">L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="te_vol" class="calc-input w-100" value="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Preparation Method</label>
+                                        <div class="mode-toggle w-100">
+                                            <label class="mode-option active w-50" onclick="toggleTEMethod('solids')">
+                                                <input type="radio" name="te_method" value="solids" checked>Solids
+                                            </label>
+                                            <label class="mode-option w-50" onclick="toggleTEMethod('stocks')">
+                                                <input type="radio" name="te_method" value="stocks">Stocks
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Solids Options -->
+                            <div id="te_solids_group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">EDTA Form</label>
+                                            <select class="calc-select w-100" id="te_edta_form" onchange="updateTEMW()">
+                                                <option value="372.24" selected>Na2EDTA·2H2O (372.24)</option>
+                                                <option value="336.21">Anhydrous (336.21)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">MW (g/mol)</label>
+                                            <div class="row g-2">
+                                                <div class="col-4">
+                                                    <input type="number" id="te_mw_tris_base" class="calc-input w-100"
+                                                        value="121.14" step="0.01">
+                                                    <small style="font-size: 9px; color: #777;">Tris Base</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="number" id="te_mw_tris_hcl" class="calc-input w-100"
+                                                        value="157.60" step="0.01">
+                                                    <small style="font-size: 9px; color: #777;">Tris-Cl</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="number" id="te_mw_edta" class="calc-input w-100"
+                                                        value="372.24" step="0.01">
+                                                    <small style="font-size: 9px; color: #777;">EDTA Salt</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stocks Options -->
+                            <div id="te_stocks_group" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Tris (M)</label>
+                                            <input type="number" id="te_stock_tris" class="calc-input w-100" value="1.0"
+                                                step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock EDTA (M)</label>
+                                            <input type="number" id="te_stock_edta" class="calc-input w-100" value="0.5"
+                                                step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock HCl (M)</label>
+                                            <input type="number" id="te_stock_hcl" class="calc-input w-100" value="1.0"
+                                                step="0.1">
+                                            <small style="font-size: 9px; color: #777;">For pH adjustment</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="calc-btn" onclick="calcTE()">Generate Recipe</button>
+
+                            <div id="te_result" class="result-box">
+                                <div class="result-title">TE Buffer Recipe</div>
+                                <ul class="recipe-list" id="te_recipe_list"></ul>
+                                <div class="instructions" id="te_instructions"></div>
+                                <div
+                                    style="margin-top: 20px; font-size: 13px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                    <strong style="color: #00a651;">📝 SOP Method Text:</strong><br>
+                                    <span id="te_sop_text"
+                                        style="font-style: italic; display: block; margin-top: 8px; line-height: 1.5;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Citrate Buffer Section -->
+                    <div id="section-citrate" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <h4>Citrate Buffer Preparation</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Desired pH: <span id="cit_ph_val"
+                                                style="color: #00a651; font-weight: 700;">4.8</span></label>
+                                        <input type="range" id="cit_ph" class="calc-range" value="4.8" step="0.1"
+                                            min="3.0" max="6.2"
+                                            oninput="document.getElementById('cit_ph_val').textContent = this.value">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Desired Molarity</label>
+                                            <div class="mode-toggle" id="cit_m_toggle">
+                                                <label class="mode-option">
+                                                    <input type="radio" name="cit_m_unit" value="0.000001">µM
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="cit_m_unit" value="0.001">mM
+                                                </label>
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="cit_m_unit" value="1" checked>M
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="cit_m" class="calc-input w-100" value="0.1"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="cit_vol_unit" value="1" checked>mL
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="cit_vol_unit" value="1000">L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="cit_vol" class="calc-input w-100" value="1000">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Preparation Method</label>
+                                        <div class="mode-toggle w-100">
+                                            <label class="mode-option active w-50" onclick="toggleCitMethod('solids')">
+                                                <input type="radio" name="cit_method" value="solids" checked>Solids
+                                            </label>
+                                            <label class="mode-option w-50" onclick="toggleCitMethod('stocks')">
+                                                <input type="radio" name="cit_method" value="stocks">Stocks
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Citrate Solids Group -->
+                            <div id="cit_solids_group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Salt Form & MW (g/mol)</label>
+                                            <div class="calc-input-group mb-2">
+                                                <select class="calc-select w-100" id="cit_salt_form"
+                                                    onchange="updateCitrateMW()">
+                                                    <option value="294.10" selected>Na3-Citrate Dihydrate (294.10)
+                                                    </option>
+                                                    <option value="258.07">Na3-Citrate Anhydrous (258.07)</option>
+                                                    <option value="custom">Custom / Other Form</option>
+                                                </select>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <input type="number" id="cit_mw_acid" class="calc-input w-100"
+                                                        placeholder="MW" value="192.12" step="0.01">
+                                                    <small style="font-size: 10px; color: #777;">Citric Acid MW</small>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" id="cit_mw_base" class="calc-input w-100"
+                                                        placeholder="MW" value="294.10" step="0.01">
+                                                    <small style="font-size: 10px; color: #777;">Sodium Citrate
+                                                        MW</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Citrate Stocks Group -->
+                            <div id="cit_stocks_group" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Citric Acid (M)</label>
+                                            <input type="number" id="cit_stock_acid" class="calc-input w-100"
+                                                value="1.0" step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Sodium Citrate (M)</label>
+                                            <input type="number" id="cit_stock_base" class="calc-input w-100"
+                                                value="1.0" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="cit_warning_box"
+                                style="display:none; background: rgba(214, 51, 132, 0.1); border: 1px solid rgba(214, 51, 132, 0.2); border-radius: 8px; padding: 10px; margin-bottom: 15px; color: #ff6b6b; font-size: 12px;">
+                                <i class="fa fa-exclamation-triangle"></i> <span id="cit_warning_text"></span>
+                            </div>
+
+                            <button class="calc-btn" onclick="calcCitrate()">Generate Recipe</button>
+
+                            <div id="cit_result" class="result-box">
+                                <div class="result-title">Citrate Buffer Preparation (HH Speciation Method)</div>
+                                <ul class="recipe-list" id="cit_recipe_list"></ul>
+
+                                <div id="cit_speciation_box"
+                                    style="margin: 15px 0; padding: 12px; background: rgba(0, 166, 81, 0.05); border: 1px dashed rgba(0, 166, 81, 0.3); border-radius: 8px;">
+                                    <div style="font-weight: 700; color: #00a651; font-size: 12px; margin-bottom: 8px;">
+                                        📊 Species Distribution (Mass Balance)</div>
+                                    <div id="cit_speciation_content"
+                                        style="font-family: 'Courier New', monospace; font-size: 11px; color: #ccc; line-height: 1.4;">
+                                    </div>
+                                </div>
+
+                                <div class="instructions" id="cit_instructions"></div>
+                                <div
+                                    style="margin-top: 20px; font-size: 13px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                    <strong style="color: #00a651;">📝 Note:</strong><br>
+                                    <span id="cit_sop_text"
+                                        style="font-style: italic; display: block; margin-top: 8px; line-height: 1.5;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acetate Buffer Section -->
+                    <div id="section-acetate" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <h4>Acetate Buffer Preparation</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Desired pH: <span id="ace_ph_val"
+                                                style="color: #00a651; font-weight: 700;">4.8</span></label>
+                                        <input type="range" id="ace_ph" class="calc-range" value="4.8" step="0.1"
+                                            min="3.8" max="5.8"
+                                            oninput="document.getElementById('ace_ph_val').textContent = this.value">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Desired Molarity</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option">
+                                                    <input type="radio" name="ace_m_unit" value="0.000001">µM
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="ace_m_unit" value="0.001">mM
+                                                </label>
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="ace_m_unit" value="1" checked>M
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="ace_m" class="calc-input w-100" value="0.1"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="ace_vol_unit" value="1" checked>mL
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="ace_vol_unit" value="1000">L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="ace_vol" class="calc-input w-100" value="1000">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Preparation Method</label>
+                                    <div class="mode-toggle w-100">
+                                        <label class="mode-option active w-50" onclick="toggleAceMethod('solids')">
+                                            <input type="radio" name="ace_method" value="solids" checked>Solids
+                                        </label>
+                                        <label class="mode-option w-50" onclick="toggleAceMethod('stocks')">
+                                            <input type="radio" name="ace_method" value="stocks">Stocks
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Solids Options -->
+                            <div id="ace_solids_group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Na-Acetate Form</label>
+                                            <select class="calc-select w-100" id="ace_salt_form"
+                                                onchange="updateAceMW()">
+                                                <option value="136.08" selected>Trihydrate (136.08)</option>
+                                                <option value="82.03">Anhydrous (82.03)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">MW (g/mol)</label>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <input type="number" id="ace_mw_acid" class="calc-input w-100"
+                                                        value="60.05" step="0.01">
+                                                    <small style="font-size: 10px; color: #777;">Acetic Acid</small>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" id="ace_mw_base" class="calc-input w-100"
+                                                        value="136.08" step="0.01">
+                                                    <small style="font-size: 10px; color: #777;">Na-Acetate</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stocks Options -->
+                            <div id="ace_stocks_group" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Acetic Acid (M)</label>
+                                            <input type="number" id="ace_stock_acid" class="calc-input w-100"
+                                                value="1.0" step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Na-Acetate (M)</label>
+                                            <input type="number" id="ace_stock_base" class="calc-input w-100"
+                                                value="1.0" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="calc-btn" onclick="calcAcetate()">Generate Recipe</button>
+
+                            <div id="ace_result" class="result-box">
+                                <div class="result-title">Acetate Buffer Recipe</div>
+                                <ul class="recipe-list" id="ace_recipe_list"></ul>
+                                <div class="instructions" id="ace_instructions"></div>
+                                <div
+                                    style="margin-top: 20px; font-size: 13px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                    <strong style="color: #00a651;">📝 Note:</strong><br>
+                                    <span id="ace_sop_text"
+                                        style="font-style: italic; display: block; margin-top: 8px; line-height: 1.5;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Borate Buffer Section -->
+                    <div id="section-borate" class="buffer-section" style="display: none;">
+                        <div class="calc-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 class="mb-0">Borate Buffer Calculator</h4>
+                                <span class="badge"
+                                    style="background: rgba(0,166,81,0.1); color: #00a651; border: 1px solid rgba(0,166,81,0.2); padding: 5px 12px; border-radius: 20px; font-size: 11px;">pKa
+                                    9.24</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between">
+                                            <label class="form-label">Desired pH</label>
+                                            <span id="bor_ph_val" style="color: #00a651; font-weight: 700;">9.20</span>
+                                        </div>
+                                        <input type="range" id="bor_ph" class="calc-range" min="8.0" max="11.0"
+                                            step="0.01" value="9.2"
+                                            oninput="document.getElementById('bor_ph_val').innerText = parseFloat(this.value).toFixed(2)">
+                                        <div class="d-flex justify-content-between"
+                                            style="font-size: 10px; color: #555;">
+                                            <span>8.0</span>
+                                            <span>11.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Molarity</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option">
+                                                    <input type="radio" name="bor_m_unit" value="0.000001">µM
+                                                </label>
+                                                <label class="mode-option">
+                                                    <input type="radio" name="bor_m_unit" value="0.001">mM
+                                                </label>
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="bor_m_unit" value="1" checked>M
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="bor_m" class="calc-input w-100" value="1" step="0.1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div class="mode-toggle">
+                                                <label class="mode-option">
+                                                    <input type="radio" name="bor_vol_unit" value="1">mL
+                                                </label>
+                                                <label class="mode-option active">
+                                                    <input type="radio" name="bor_vol_unit" value="1000" checked>L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="bor_vol" class="calc-input w-100" value="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Preparation Method</label>
+                                        <div class="mode-toggle w-100">
+                                            <label class="mode-option active w-50" onclick="toggleBorMethod('solids')">
+                                                <input type="radio" name="bor_method" value="solids" checked>Solids
+                                            </label>
+                                            <label class="mode-option w-50" onclick="toggleBorMethod('stocks')">
+                                                <input type="radio" name="bor_method" value="stocks">Stocks
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Solids Options -->
+                            <div id="bor_solids_group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Sodium Borate Form</label>
+                                            <select class="calc-select w-100" id="bor_salt_form"
+                                                onchange="updateBorateMW()">
+                                                <option value="381.37" selected>Borax Decahydrate (381.37)</option>
+                                                <option value="201.22">Anhydrous (201.22)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">MW (g/mol)</label>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <input type="number" id="bor_mw_acid" class="calc-input w-100"
+                                                        value="61.83" step="0.01">
+                                                    <small style="font-size: 10px; color: #777;">Boric Acid</small>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" id="bor_mw_base" class="calc-input w-100"
+                                                        value="381.37" step="0.01">
+                                                    <small style="font-size: 10px; color: #777;">Sodium Borate</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stocks Options -->
+                            <div id="bor_stocks_group" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Boric Acid (M)</label>
+                                            <input type="number" id="bor_stock_acid" class="calc-input w-100"
+                                                value="0.5" step="0.1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Stock Sodium Borate (M)</label>
+                                            <input type="number" id="bor_stock_base" class="calc-input w-100"
+                                                value="0.1" step="0.05">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="calc-btn" onclick="calcBorate()">Generate Recipe</button>
+
+                            <div id="bor_result" class="result-box">
+                                <div class="result-title">Borate Buffer Recipe</div>
+                                <ul class="recipe-list" id="bor_recipe_list"></ul>
+                                <div class="instructions" id="bor_instructions"></div>
+                                <div
+                                    style="margin-top: 20px; font-size: 13px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                    <strong style="color: #00a651;">📝 Note:</strong><br>
+                                    <span id="bor_sop_text"
+                                        style="font-style: italic; display: block; margin-top: 8px; line-height: 1.5;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer" style="padding: 20px 0px; background: transparent; margin-top: 50px;">
+            <p>Copyright © 2024 One Research Hub. All Rights Reserved.</p>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/user-auth.js"></script>
+
+    <script>
+        function showBuffer(id, el) {
+            document.querySelectorAll('.buffer-section').forEach(s => s.style.display = 'none');
+            const target = document.getElementById('section-' + id);
+            if (target) target.style.display = 'block';
+
+            document.querySelectorAll('.nav-box').forEach(b => b.classList.remove('active'));
+            if (el) {
+                el.classList.add('active');
+            } else {
+                const boxes = document.querySelectorAll('.nav-box');
+                boxes.forEach(box => {
+                    const onclick = box.getAttribute('onclick');
+                    if (onclick && onclick.includes(`'${id}'`)) box.classList.add('active');
+                });
+            }
+            // Save state to localStorage
+            localStorage.setItem('active_buffer_recipe', id);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('id');
+            const lastBuffer = localStorage.getItem('active_buffer_recipe');
+
+            if (targetId) {
+                showBuffer(targetId);
+            } else if (lastBuffer) {
+                showBuffer(lastBuffer);
+            }
+        });
+
+        function createRecipeItem(name, amount, unit) {
+            const digits = (unit === 'mL' || unit === 'ml') ? 2 : 4;
+            return `<li class="recipe-item"><span>${name}</span> <span><b>${amount.toFixed(digits)}</b> ${unit}</span></li>`;
+        }
+
+        function calcPBS() {
+            const vol = Number(document.getElementById('pbs_vol').value) * Number(document.getElementById('pbs_unit').value) / 1000; // in L
+            const list = document.getElementById('pbs_recipe_list');
+            list.innerHTML = '';
+            list.innerHTML += createRecipeItem('NaCl', 80 * vol, 'g');
+            list.innerHTML += createRecipeItem('KCl', 2 * vol, 'g');
+            list.innerHTML += createRecipeItem('Na2HPO4', 14.4 * vol, 'g');
+            list.innerHTML += createRecipeItem('KH2PO4', 2.4 * vol, 'g');
+            list.innerHTML += createRecipeItem('Deionized Water', 1000 * vol, 'mL (Final)');
+            document.getElementById('pbs_result').style.display = 'block';
+        }
+
+        function toggleTrisMethod(method) {
+            if (method === 'solids') {
+                document.getElementById('tris_solids_group').style.display = 'block';
+                document.getElementById('tris_stocks_group').style.display = 'none';
+            } else {
+                document.getElementById('tris_solids_group').style.display = 'none';
+                document.getElementById('tris_stocks_group').style.display = 'block';
+            }
+        }
+
+        function calcTris() {
+            const ph = parseFloat(document.getElementById('tris_ph').value);
+            const temp = parseFloat(document.getElementById('tris_temp').value);
+            const inputM = parseFloat(document.getElementById('tris_m').value);
+            const mUnit = parseFloat(document.querySelector('input[name="tris_m_unit"]:checked').value);
+            const targetM = inputM * mUnit;
+
+            const volUnit = parseFloat(document.querySelector('input[name="tris_vol_unit"]:checked').value);
+            const volML = parseFloat(document.getElementById('tris_vol').value) * volUnit;
+            const method = document.querySelector('input[name="tris_method"]:checked').value;
+
+            const resultBox = document.getElementById('tris_result');
+            const list = document.getElementById('tris_recipe_list');
+            const pkaDisplay = document.getElementById('tris_pka_display');
+            const inst = document.getElementById('tris_instructions');
+            const sop = document.getElementById('tris_sop_text');
+
+            if (isNaN(ph) || isNaN(targetM) || isNaN(volML) || isNaN(temp)) {
+                alert("Please enter valid numeric values.");
+                return;
+            }
+
+            // pKa(T) = 8.06 - 0.028 * (T - 25)
+            const pKaT = 8.06 - 0.028 * (temp - 25);
+            pkaDisplay.innerHTML = `Temperature-corrected pKa: <b>${pKaT.toFixed(4)}</b> (at ${temp}°C)`;
+
+            const totalMoles = targetM * (volML / 1000);
+            const ratio = Math.pow(10, ph - pKaT); // [Tris]/[Tris-HCl]
+
+            const molesAcid = totalMoles / (1 + ratio); // Tris-HCl
+            const molesBase = totalMoles - molesAcid;     // Tris base
+
+            list.innerHTML = '';
+            let instrHtml = '';
+            let mUnitLabel = document.querySelector('input[name="tris_m_unit"]:checked').parentElement.textContent.trim();
+            let sopText = `Tris buffer (${inputM} ${mUnitLabel}, pH ${ph}) was prepared using temperature-corrected Henderson–Hasselbalch calculations by mixing `;
+
+            if (method === 'solids') {
+                const mwBase = 121.14;
+                const mwAcid = 157.60;
+                const massBase = molesBase * mwBase;
+                const massAcid = molesAcid * mwAcid;
+
+                list.innerHTML += createRecipeItem('Tris Base (MW 121.14)', massBase, 'g');
+                list.innerHTML += createRecipeItem('Tris-HCl (MW 157.60)', massAcid, 'g');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Weigh exactly <b>${massBase.toFixed(4)} g</b> of Tris Base and <b>${massAcid.toFixed(4)} g</b> of Tris-HCl.</li>
+                        <li>Dissolve both solids in approx. 80% volume of distilled water (<b>${(0.8 * volML).toFixed(0)} mL</b>).</li>
+                        <li>Stir until completely dissolved.</li>
+                        <li><b>Confirm pH</b> at ${temp}°C. Adjust if necessary using a calibrated meter.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                    </ol>
+                `;
+                sopText += `${massBase.toFixed(4)} g of Tris base and ${massAcid.toFixed(4)} g of Tris-HCl. `;
+            } else {
+                const stockBaseM = parseFloat(document.getElementById('tris_stock_base').value);
+                const stockAcidM = parseFloat(document.getElementById('tris_stock_acid').value);
+
+                if (isNaN(stockBaseM) || isNaN(stockAcidM) || stockBaseM <= 0 || stockAcidM <= 0) {
+                    alert("Please enter valid positive stock concentrations.");
+                    return;
+                }
+
+                const volBaseStock = (molesBase / stockBaseM) * 1000;
+                const volAcidStock = (molesAcid / stockAcidM) * 1000;
+
+                list.innerHTML += createRecipeItem('Tris Base Stock (' + stockBaseM + ' M)', volBaseStock, 'mL');
+                list.innerHTML += createRecipeItem('Tris-HCl Stock (' + stockAcidM + ' M)', volAcidStock, 'mL');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Mix exactly <b>${volBaseStock.toFixed(4)} mL</b> of Tris Base stock and <b>${volAcidStock.toFixed(4)} mL</b> of Tris-HCl stock.</li>
+                        <li>Dilute with distilled water to approx. 90% of final volume (<b>${(0.9 * volML).toFixed(0)} mL</b>).</li>
+                        <li><b>Adjust pH</b> if necessary at ${temp}°C using a pH meter.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                    </ol>
+                `;
+                sopText += `${volBaseStock.toFixed(4)} mL of Tris base and ${volAcidStock.toFixed(4)} mL of Tris-HCl stock solutions. `;
+            }
+
+            list.innerHTML += `<li class="recipe-item"><span>Distilled Water</span> <span><b>To ${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b></span></li>`;
+            list.innerHTML += `<li class="recipe-item" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px;"><span>Verification</span> <span>[Base]+[Acid] = <b>${(targetM).toFixed(4)}</b> M</span></li>`;
+
+            inst.innerHTML = instrHtml;
+            sop.innerText = sopText + `The solution was diluted with distilled water to the desired final volume and the pH was adjusted at room temperature.`;
+            resultBox.style.display = 'block';
+        }
+
+        function calcTAE() {
+            const vol = Number(document.getElementById('tae_vol').value) / 1000;
+            const list = document.getElementById('tae_recipe_list');
+            list.innerHTML = '';
+            list.innerHTML += createRecipeItem('Tris Base', 242 * vol, 'g');
+            list.innerHTML += createRecipeItem('Glacial Acetic Acid', 57.1 * vol, 'mL');
+            list.innerHTML += createRecipeItem('0.5M EDTA (pH 8.0)', 100 * vol, 'mL');
+            list.innerHTML += createRecipeItem('Final Volume', vol * 1000, 'mL');
+            document.getElementById('tae_result').style.display = 'block';
+        }
+
+        function calcTBE() {
+            const vol = Number(document.getElementById('tbe_vol').value) / 1000;
+            const list = document.getElementById('tbe_recipe_list');
+            list.innerHTML = '';
+            list.innerHTML += createRecipeItem('Tris Base', 108 * vol, 'g');
+            list.innerHTML += createRecipeItem('Boric Acid', 55 * vol, 'g');
+            list.innerHTML += createRecipeItem('0.5M EDTA (pH 8.0)', 40 * vol, 'mL');
+            list.innerHTML += createRecipeItem('Final Volume', vol * 1000, 'mL');
+            document.getElementById('tbe_result').style.display = 'block';
+        }
+
+        function toggleTEMethod(method) {
+            if (method === 'solids') {
+                document.getElementById('te_solids_group').style.display = 'block';
+                document.getElementById('te_stocks_group').style.display = 'none';
+            } else {
+                document.getElementById('te_solids_group').style.display = 'none';
+                document.getElementById('te_stocks_group').style.display = 'block';
+            }
+        }
+
+        function updateTEMW() {
+            document.getElementById('te_mw_edta').value = document.getElementById('te_edta_form').value;
+        }
+
+        function calcTE() {
+            const strength = parseFloat(document.getElementById('te_strength').value);
+            const ph = parseFloat(document.getElementById('te_ph').value);
+            const temp = parseFloat(document.getElementById('te_temp').value);
+            const volUnit = parseFloat(document.querySelector('input[name="te_vol_unit"]:checked').value);
+            const volML = parseFloat(document.getElementById('te_vol').value) * volUnit;
+            const method = document.querySelector('input[name="te_method"]:checked').value;
+
+            const resultBox = document.getElementById('te_result');
+            const list = document.getElementById('te_recipe_list');
+            const inst = document.getElementById('te_instructions');
+            const sop = document.getElementById('te_sop_text');
+
+            if (isNaN(ph) || isNaN(volML) || isNaN(temp)) {
+                alert("Please enter valid numeric values.");
+                return;
+            }
+
+            // Target Concentrations (mM)
+            const targetTrismM = 10 * strength;
+            const targetEDTAmM = 1 * strength;
+
+            // pKa Correction for Tris
+            // pKa(T) = 8.06 - 0.028 * (T - 25)
+            const pKaT = 8.06 - 0.028 * (temp - 25);
+
+            // Total Moles needed
+            const molesTrisTotal = (targetTrismM / 1000) * (volML / 1000);
+            const molesEDTATotal = (targetEDTAmM / 1000) * (volML / 1000);
+
+            // Henderson-Hasselbalch for Tris Speciation
+            const ratio = Math.pow(10, ph - pKaT); // [Tris Base]/[Tris-Cl]
+            const molesTrisAcid = molesTrisTotal / (1 + ratio); // [Tris-Cl]
+            const molesTrisBase = molesTrisTotal - molesTrisAcid; // [Tris Base]
+
+            list.innerHTML = '';
+            let instrHtml = '';
+            let sopText = `TE buffer (${strength}X; ${targetTrismM} mM Tris, ${targetEDTAmM} mM EDTA, pH ${ph.toFixed(2)}) was prepared using temperature-corrected Henderson–Hasselbalch calculations. `;
+
+            if (method === 'solids') {
+                const mwTrisBase = parseFloat(document.getElementById('te_mw_tris_base').value);
+                const mwTrisHcl = parseFloat(document.getElementById('te_mw_tris_hcl').value);
+                const mwEdta = parseFloat(document.getElementById('te_mw_edta').value);
+
+                const massTrisBase = molesTrisBase * mwTrisBase;
+                const massTrisAcid = molesTrisAcid * mwTrisHcl;
+                const massEdta = molesEDTATotal * mwEdta;
+
+                list.innerHTML += createRecipeItem('Tris Base (MW ' + mwTrisBase + ')', massTrisBase, 'g');
+                list.innerHTML += createRecipeItem('Tris-Cl (MW ' + mwTrisHcl + ')', massTrisAcid, 'g');
+                list.innerHTML += createRecipeItem('EDTA (MW ' + mwEdta + ')', massEdta, 'g');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Weigh exactly <b>${massTrisBase.toFixed(4)} g</b> of Tris Base, <b>${massTrisAcid.toFixed(4)} g</b> of Tris-Cl, and <b>${massEdta.toFixed(4)} g</b> of EDTA.</li>
+                        <li>Dissolve solids in approx. 80% volume of distilled water (<b>${(0.8 * volML).toFixed(0)} mL</b>).</li>
+                        <li>Stir until completely dissolved.</li>
+                        <li><b>Confirm pH</b> at ${temp}°C. Adjust if necessary using a calibrated meter.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                        <li><b>Verification:</b> [Tris]total = ${targetTrismM} mM, [EDTA] = ${targetEDTAmM} mM.</li>
+                    </ol>
+                `;
+                sopText += `Appropriate amounts of Tris base (${massTrisBase.toFixed(4)} g), Tris-Cl (${massTrisAcid.toFixed(4)} g), and EDTA (${massEdta.toFixed(4)} g) were dissolved in distilled water. `;
+            } else {
+                const stockTrisM = parseFloat(document.getElementById('te_stock_tris').value);
+                const stockEdtaM = parseFloat(document.getElementById('te_stock_edta').value);
+                const stockHclM = parseFloat(document.getElementById('te_stock_hcl').value);
+
+                if (isNaN(stockTrisM) || isNaN(stockEdtaM) || stockTrisM <= 0 || stockEdtaM <= 0) {
+                    alert("Please enter valid positive stock concentrations.");
+                    return;
+                }
+
+                // For stocks, we usually use Tris Base stock and adjust pH with HCl, OR use pre-mixed Tris-HCl/Base stocks. 
+                // The prompt implies a general "From Stock" method.
+                // Standard lab practice for TE from stocks: Dilute Tris stock and EDTA stock, then adjust pH.
+                // However, our rigorous model calculated species. 
+                // If the user provides a "Tris Stock" (usually pH 8 or just Tris Base?), it's ambiguous.
+                // Given the inputs 'Stock Tris (M)' and 'Stock HCl (M)', let's assume 'Stock Tris' is Tris Base 
+                // and we titration it, OR more accurately, calculate the volume of Tris stock needed for total Tris, 
+                // then specify pH adjustment. 
+                // BUT, to be "Scientific Model" consistent with the "Solids" approach (mixing acid/base forms), 
+                // we would need separate "Stock Tris Base" and "Stock Tris-HCl".
+                // The generic inputs are "Stock Tris" and "Stock HCl". 
+                // Let's implement the standard dilution: V_tris = (C_total * V_final) / C_stock.
+
+                const volTrisStock = (molesTrisTotal / stockTrisM) * 1000;
+                const volEdtaStock = (molesEDTATotal / stockEdtaM) * 1000;
+
+                list.innerHTML += createRecipeItem('Tris Stock (' + stockTrisM + ' M)', volTrisStock, 'mL');
+                list.innerHTML += createRecipeItem('EDTA Stock (' + stockEdtaM + ' M)', volEdtaStock, 'mL');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Add <b>${volTrisStock.toFixed(2)} mL</b> of Tris stock and <b>${volEdtaStock.toFixed(2)} mL</b> of EDTA stock to a beaker.</li>
+                        <li>Dilute with distilled water to approx. 90% of final volume (<b>${(0.9 * volML).toFixed(0)} mL</b>).</li>
+                        <li><b>Adjust pH</b> to ${ph.toFixed(2)} at ${temp}°C using ${stockHclM} M HCl (or NaOH if needed).</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                        <li><b>Verification:</b> Final [Tris] = ${targetTrismM} mM, [EDTA] = ${targetEDTAmM} mM.</li>
+                    </ol>
+                `;
+                sopText += `Stock solutions of Tris (${volTrisStock.toFixed(2)} mL) and EDTA (${volEdtaStock.toFixed(2)} mL) were mixed. `;
+            }
+
+            list.innerHTML += `<li class="recipe-item"><span>Distilled Water</span> <span><b>To ${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b></span></li>`;
+            inst.innerHTML = instrHtml;
+            sop.innerText = sopText + `The solution was diluted with distilled water to the desired final volume and the pH was adjusted at ${temp}°C.`;
+            resultBox.style.display = 'block';
+        }
+
+        // Mode toggle helper
+        document.addEventListener('change', function (e) {
+            if (e.target.type === 'radio' && e.target.parentElement.classList.contains('mode-option')) {
+                const group = e.target.closest('.mode-toggle');
+                if (group) {
+                    group.querySelectorAll('.mode-option').forEach(opt => opt.classList.remove('active'));
+                    e.target.closest('.mode-option').classList.add('active');
+                }
+            }
+        });
+
+        function toggleCitMethod(method) {
+            if (method === 'solids') {
+                document.getElementById('cit_solids_group').style.display = 'block';
+                document.getElementById('cit_stocks_group').style.display = 'none';
+            } else {
+                document.getElementById('cit_solids_group').style.display = 'none';
+                document.getElementById('cit_stocks_group').style.display = 'block';
+            }
+        }
+
+        function updateCitrateMW() {
+            const val = document.getElementById('cit_salt_form').value;
+            if (val !== 'custom') {
+                document.getElementById('cit_mw_base').value = val;
+            }
+        }
+
+        function calcCitrate() {
+            const ph = parseFloat(document.getElementById('cit_ph').value);
+            const inputM = parseFloat(document.getElementById('cit_m').value);
+            const mUnit = parseFloat(document.querySelector('input[name="cit_m_unit"]:checked').value);
+            const targetM = inputM * mUnit; // Total molarity C (moles/L)
+
+            const volUnit = parseFloat(document.querySelector('input[name="cit_vol_unit"]:checked').value);
+            const volML = parseFloat(document.getElementById('cit_vol').value) * volUnit;
+            const method = document.querySelector('input[name="cit_method"]:checked').value;
+
+            const warningBox = document.getElementById('cit_warning_box');
+            const warningText = document.getElementById('cit_warning_text');
+            const resultBox = document.getElementById('cit_result');
+            const list = document.getElementById('cit_recipe_list');
+            const specContent = document.getElementById('cit_speciation_content');
+
+            warningBox.style.display = 'none';
+
+            if (isNaN(ph) || isNaN(targetM) || isNaN(volML)) {
+                alert("Please enter valid numeric values.");
+                return;
+            }
+
+            // Moved MW retrieval outside or will fetch inside branch to avoid reference errors
+            const mwAcidInput = document.getElementById('cit_mw_acid');
+            const mwBaseInput = document.getElementById('cit_mw_base');
+
+            // High-Precision Speciation Model (Triprotic Citrate System)
+            // pKa values: 3.13, 4.76, 6.40
+            const Ka1 = Math.pow(10, -3.13);
+            const Ka2 = Math.pow(10, -4.76);
+            const Ka3 = Math.pow(10, -6.40);
+
+            const h = Math.pow(10, -ph);
+            const oh = 1e-14 / h;
+
+            // Calculating dissociation fractions (Alpha values)
+            const D = Math.pow(h, 3) + Ka1 * Math.pow(h, 2) + Ka1 * Ka2 * h + Ka1 * Ka2 * Ka3;
+            const a0 = Math.pow(h, 3) / D;               // Fraction H3Cit
+            const a1 = (Ka1 * Math.pow(h, 2)) / D;       // Fraction H2Cit-
+            const a2 = (Ka1 * Ka2 * h) / D;              // Fraction HCit2-
+            const a3 = (Ka1 * Ka2 * Ka3) / D;            // Fraction Cit3-
+
+            // Average negative charge on citrate species at this pH
+            // Z = (1*a1 + 2*a2 + 3*a3)
+            const zAvg = a1 + (2 * a2) + (3 * a3);
+
+            // Charge Balance Logic:
+            // [H+] + 3*[Na+] = [OH-] + 1[H2Cit-] + 2[HCit2-] + 3[Cit3-]
+            // 3*[Na+] = [OH-] - [H+] + TargetM * (a1 + 2a2 + 3a3)
+            const cNa = oh - h + (targetM * zAvg);
+            const cBaseMolar = cNa / 3; // Molar concentration of Na3Cit needed
+            const cAcidMolar = targetM - cBaseMolar; // Molar concentration of H3Cit needed
+
+            // Mass/Volume calculation
+            list.innerHTML = '';
+            let instrHtml = '';
+            let sopText = `Citrate buffer (${inputM} ${document.querySelector('input[name="cit_m_unit"]:checked').parentElement.textContent.trim()}, pH ${ph}) was prepared `;
+
+            if (method === 'solids') {
+                const mwAcid = parseFloat(document.getElementById('cit_mw_acid').value);
+                const mwBase = parseFloat(document.getElementById('cit_mw_base').value);
+
+                if (isNaN(mwAcid) || isNaN(mwBase)) {
+                    alert("Please enter valid molecular weights.");
+                    return;
+                }
+
+                const massAcid = cAcidMolar * mwAcid * (volML / 1000);
+                const massBase = cBaseMolar * mwBase * (volML / 1000);
+
+                list.innerHTML += createRecipeItem('Citric Acid (' + mwAcid + ')', Math.max(0, massAcid), 'g');
+                list.innerHTML += createRecipeItem('Sodium Citrate (' + mwBase + ')', Math.max(0, massBase), 'g');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Weigh exactly <b>${Math.max(0, massAcid).toFixed(4)} g</b> of Citric Acid and <b>${Math.max(0, massBase).toFixed(4)} g</b> of Sodium Citrate.</li>
+                        <li>Dissolve both solids in approx. 80% volume of distilled water (<b>${(0.8 * volML).toFixed(0)} mL</b>).</li>
+                        <li><b>Adjust pH</b> at room temperature using a calibrated meter to pH ${ph.toFixed(4)}.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                        <li><b>Scientific Note:</b> Calculated using the multi-protic Henderson-Hasselbalch speciation model (pKa 3.13, 4.76, 6.40).</li>
+                    </ol>
+                `;
+                sopText += `by dissolving ${Math.max(0, massAcid).toFixed(4)} g of citric acid and ${Math.max(0, massBase).toFixed(4)} g of sodium citrate into distilled water. `;
+            } else {
+                const stockAcidM = parseFloat(document.getElementById('cit_stock_acid').value);
+                const stockBaseM = parseFloat(document.getElementById('cit_stock_base').value);
+
+                if (isNaN(stockAcidM) || isNaN(stockBaseM) || stockAcidM <= 0 || stockBaseM <= 0) {
+                    alert("Please enter valid positive stock concentrations.");
+                    return;
+                }
+
+                const volAcidStock = (cAcidMolar / stockAcidM) * volML;
+                const volBaseStock = (cBaseMolar / stockBaseM) * volML;
+
+                list.innerHTML += createRecipeItem('Citric Acid Stock (' + stockAcidM + ' M)', Math.max(0, volAcidStock), 'mL');
+                list.innerHTML += createRecipeItem('Sodium Citrate Stock (' + stockBaseM + ' M)', Math.max(0, volBaseStock), 'mL');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Mix exactly <b>${Math.max(0, volAcidStock).toFixed(4)} mL</b> of Citric Acid and <b>${Math.max(0, volBaseStock).toFixed(4)} mL</b> of Sodium Citrate stock solutions.</li>
+                        <li>Add distilled water to approx. 90% of final volume (<b>${(0.9 * volML).toFixed(0)} mL</b>).</li>
+                        <li><b>Adjust pH</b> at room temperature using a calibrated meter to pH ${ph.toFixed(4)}.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b>.</li>
+                        <li><b>Scientific Note:</b> Calculated using the multi-protic Henderson-Hasselbalch speciation model (pKa 3.13, 4.76, 6.40).</li>
+                    </ol>
+                `;
+                sopText += `by mixing ${Math.max(0, volAcidStock).toFixed(4)} mL of citric acid and ${Math.max(0, volBaseStock).toFixed(4)} mL of sodium citrate stock solutions. `;
+            }
+
+            list.innerHTML += `<li class="recipe-item"><span>Distilled Water</span> <span><b>To ${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b></span></li>`;
+
+            // Species Distribution Display
+            specContent.innerHTML = `
+                &bull; H₃Cit (Acid): ${(a0 * 100).toFixed(2)}%<br>
+                &bull; H₂Cit⁻: ${(a1 * 100).toFixed(2)}%<br>
+                &bull; HCit²⁻: ${(a2 * 100).toFixed(2)}%<br>
+                &bull; Cit³⁻ (Salt): ${(a3 * 100).toFixed(2)}%<br>
+                <div style="margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 5px;">
+                    &bull; Calculated Total: ${targetM.toFixed(targetM < 0.001 ? 6 : 4)} M
+                </div>
+            `;
+
+            document.getElementById('cit_instructions').innerHTML = instrHtml;
+            document.getElementById('cit_sop_text').innerText = sopText + `The solution was adjusted to the target pH and brought to a final volume with distilled water.`;
+
+            resultBox.style.display = 'block';
+        }
+
+        function toggleAceMethod(method) {
+            if (method === 'solids') {
+                document.getElementById('ace_solids_group').style.display = 'block';
+                document.getElementById('ace_stocks_group').style.display = 'none';
+            } else {
+                document.getElementById('ace_solids_group').style.display = 'none';
+                document.getElementById('ace_stocks_group').style.display = 'block';
+            }
+        }
+
+        function updateAceMW() {
+            document.getElementById('ace_mw_base').value = document.getElementById('ace_salt_form').value;
+        }
+
+        function calcAcetate() {
+            const ph = parseFloat(document.getElementById('ace_ph').value);
+            const inputM = parseFloat(document.getElementById('ace_m').value);
+            const mUnit = parseFloat(document.querySelector('input[name="ace_m_unit"]:checked').value);
+            const targetM = inputM * mUnit;
+
+            const volUnit = parseFloat(document.querySelector('input[name="ace_vol_unit"]:checked').value);
+            const volML = parseFloat(document.getElementById('ace_vol').value) * volUnit;
+            const method = document.querySelector('input[name="ace_method"]:checked').value;
+
+            const resultBox = document.getElementById('ace_result');
+            const list = document.getElementById('ace_recipe_list');
+            const inst = document.getElementById('ace_instructions');
+            const sop = document.getElementById('ace_sop_text');
+
+            if (isNaN(ph) || isNaN(targetM) || isNaN(volML)) {
+                alert("Please enter valid numeric values.");
+                return;
+            }
+
+            const pKa = 4.76;
+            const totalMoles = targetM * (volML / 1000);
+            const ratio = Math.pow(10, ph - pKa); // [Base]/[Acid]
+
+            const molesAcid = totalMoles / (1 + ratio);
+            const molesBase = totalMoles - molesAcid;
+
+            list.innerHTML = '';
+            let instrHtml = '';
+            let mUnitLabel = document.querySelector('input[name="ace_m_unit"]:checked').parentElement.textContent.trim();
+            let sopText = `Acetate buffer (${inputM} ${mUnitLabel}, pH ${ph}) was prepared by mixing `;
+
+            if (method === 'solids') {
+                const mwAcid = parseFloat(document.getElementById('ace_mw_acid').value);
+                const mwBase = parseFloat(document.getElementById('ace_mw_base').value);
+
+                // Acetic Acid is usually Glacial (liquid). Density = 1.049 g/mL
+                const massAcid = molesAcid * mwAcid;
+                const volAcid = massAcid / 1.049;
+                const massBase = molesBase * mwBase;
+
+                list.innerHTML += `<li class="recipe-item"><span>Glacial Acetic Acid (d=1.049)</span> <span><b>${massAcid.toFixed(4)} g</b> (${volAcid.toFixed(4)} mL)</span></li>`;
+                list.innerHTML += createRecipeItem('Sodium Acetate (MW ' + mwBase + ')', massBase, 'g');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Measure <b>${volAcid.toFixed(4)} mL</b> (or <b>${massAcid.toFixed(4)} g</b>) of Glacial Acetic Acid and weigh <b>${massBase.toFixed(4)} g</b> of Sodium Acetate.</li>
+                        <li>Dissolve in approx. 80% volume of distilled water (<b>${(0.8 * volML).toFixed(0)} mL</b>).</li>
+                        <li>Stir until completely dissolved.</li>
+                        <li><b>Adjust pH</b> if necessary at room temperature using a calibrated meter.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                    </ol>
+                `;
+                sopText += `${volAcid.toFixed(4)} mL (${massAcid.toFixed(4)} g) of glacial acetic acid and ${massBase.toFixed(4)} g of sodium acetate. `;
+            } else {
+                const stockAcidM = parseFloat(document.getElementById('ace_stock_acid').value);
+                const stockBaseM = parseFloat(document.getElementById('ace_stock_base').value);
+
+                if (isNaN(stockAcidM) || isNaN(stockBaseM)) {
+                    alert("Please enter valid stock concentrations.");
+                    return;
+                }
+
+                const volAcidStock = (molesAcid / stockAcidM) * 1000;
+                const volBaseStock = (molesBase / stockBaseM) * 1000;
+
+                list.innerHTML += createRecipeItem('Acetic Acid Stock (' + stockAcidM + ' M)', volAcidStock, 'mL');
+                list.innerHTML += createRecipeItem('Na-Acetate Stock (' + stockBaseM + ' M)', volBaseStock, 'mL');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Mix exactly <b>${volAcidStock.toFixed(4)} mL</b> of Acetic Acid and <b>${volBaseStock.toFixed(4)} mL</b> of Sodium Acetate stocks.</li>
+                        <li>Dilute with distilled water to approx. 90% of final volume.</li>
+                        <li><b>Adjust pH</b> at room temperature using a pH meter.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                    </ol>
+                `;
+                sopText += `${volAcidStock.toFixed(4)} mL of acetic acid and ${volBaseStock.toFixed(4)} mL of sodium acetate stock solutions. `;
+            }
+
+            list.innerHTML += `<li class="recipe-item"><span>Distilled Water</span> <span><b>To ${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b></span></li>`;
+            inst.innerHTML = instrHtml;
+            sop.innerText = sopText + `The solution was diluted with distilled water to the desired final volume and the pH was adjusted at room temperature.`;
+            resultBox.style.display = 'block';
+        }
+
+        // Borate Buffer Logic
+        function toggleBorMethod(method) {
+            if (method === 'solids') {
+                document.getElementById('bor_solids_group').style.display = 'block';
+                document.getElementById('bor_stocks_group').style.display = 'none';
+            } else {
+                document.getElementById('bor_solids_group').style.display = 'none';
+                document.getElementById('bor_stocks_group').style.display = 'block';
+            }
+        }
+
+        function updateBorateMW() {
+            document.getElementById('bor_mw_base').value = document.getElementById('bor_salt_form').value;
+        }
+
+        function calcBorate() {
+            const ph = parseFloat(document.getElementById('bor_ph').value);
+            const inputM = parseFloat(document.getElementById('bor_m').value);
+            const mUnit = parseFloat(document.querySelector('input[name="bor_m_unit"]:checked').value);
+            const targetM = inputM * mUnit;
+
+            const volUnit = parseFloat(document.querySelector('input[name="bor_vol_unit"]:checked').value);
+            const volML = parseFloat(document.getElementById('bor_vol').value) * volUnit;
+            const method = document.querySelector('input[name="bor_method"]:checked').value;
+
+            const resultBox = document.getElementById('bor_result');
+            const list = document.getElementById('bor_recipe_list');
+            const inst = document.getElementById('bor_instructions');
+            const sop = document.getElementById('bor_sop_text');
+
+            if (isNaN(ph) || isNaN(targetM) || isNaN(volML)) {
+                alert("Please enter valid numeric values.");
+                return;
+            }
+
+            const pKa = 9.24;
+            const totalMoles = targetM * (volML / 1000);
+            const ratio = Math.pow(10, ph - pKa); // [Borate-]/[Boric Acid]
+
+            const molesAcid = totalMoles / (1 + ratio);
+            const molesBase = totalMoles - molesAcid;
+
+            list.innerHTML = '';
+            let instrHtml = '';
+            let mUnitLabel = document.querySelector('input[name="bor_m_unit"]:checked').parentElement.textContent.trim();
+            let sopText = `Borate buffer (${inputM} ${mUnitLabel}, pH ${ph}) was prepared using Henderson–Hasselbalch calculations by mixing `;
+
+            if (method === 'solids') {
+                const mwAcid = parseFloat(document.getElementById('bor_mw_acid').value);
+                const mwBase = parseFloat(document.getElementById('bor_mw_base').value);
+
+                const massAcid = molesAcid * mwAcid;
+                const massBase = molesBase * mwBase;
+
+                list.innerHTML += createRecipeItem('Boric Acid (MW ' + mwAcid + ')', massAcid, 'g');
+                list.innerHTML += createRecipeItem('Sodium Borate (MW ' + mwBase + ')', massBase, 'g');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Weigh exactly <b>${massAcid.toFixed(4)} g</b> of Boric Acid and <b>${massBase.toFixed(4)} g</b> of Sodium Borate.</li>
+                        <li>Dissolve both solids in approx. 80% volume of distilled water (<b>${(0.8 * volML).toFixed(0)} mL</b>).</li>
+                        <li>Stir until completely dissolved.</li>
+                        <li><b>Confirm pH</b> at room temperature. Adjust if necessary using a calibrated pH meter.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                        <li><b>Verification:</b> [Acid] + [Base] = ${(molesAcid + molesBase).toFixed(6)} total moles (matches ${totalMoles.toFixed(6)} target).</li>
+                    </ol>
+                `;
+                sopText += `${massAcid.toFixed(4)} g of boric acid and ${massBase.toFixed(4)} g of sodium borate. `;
+            } else {
+                const stockAcidM = parseFloat(document.getElementById('bor_stock_acid').value);
+                const stockBaseM = parseFloat(document.getElementById('bor_stock_base').value);
+
+                if (isNaN(stockAcidM) || isNaN(stockBaseM) || stockAcidM <= 0 || stockBaseM <= 0) {
+                    alert("Please enter valid positive stock concentrations.");
+                    return;
+                }
+
+                const volAcidStock = (molesAcid / stockAcidM) * 1000;
+                const volBaseStock = (molesBase / stockBaseM) * 1000;
+
+                list.innerHTML += createRecipeItem('Boric Acid Stock (' + stockAcidM + ' M)', volAcidStock, 'mL');
+                list.innerHTML += createRecipeItem('Sodium Borate Stock (' + stockBaseM + ' M)', volBaseStock, 'mL');
+
+                instrHtml = `
+                    <strong>Instructions:</strong>
+                    <ol style="padding-left: 20px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                        <li>Mix exactly <b>${volAcidStock.toFixed(4)} mL</b> of Boric Acid stock and <b>${volBaseStock.toFixed(4)} mL</b> of Sodium Borate stock.</li>
+                        <li>Dilute with distilled water to approx. 90% of final volume (<b>${(0.9 * volML).toFixed(0)} mL</b>).</li>
+                        <li><b>Adjust pH</b> at room temperature using a calibrated meter to pH ${ph.toFixed(2)}.</li>
+                        <li>Bring to the final volume of <b>${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b> with distilled water.</li>
+                        <li><b>Verification:</b> [Acid] + [Base] = ${(molesAcid + molesBase).toFixed(6)} total moles.</li>
+                    </ol>
+                `;
+                sopText += `${volAcidStock.toFixed(4)} mL of boric acid and ${volBaseStock.toFixed(4)} mL of sodium borate stock solutions. `;
+            }
+
+            list.innerHTML += `<li class="recipe-item"><span>Distilled Water</span> <span><b>To ${volML < 1000 ? volML : (volML / 1000)} ${volML < 1000 ? 'mL' : 'L'}</b></span></li>`;
+            inst.innerHTML = instrHtml;
+            sop.innerText = sopText + `The solution was diluted with distilled water to the desired final volume and the pH was adjusted at room temperature.`;
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

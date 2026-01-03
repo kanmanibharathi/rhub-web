@@ -141,6 +141,9 @@
                                 <a href="javascript:void(0)" class="active">Statistics</a>
                                 <ul class="sub-menu">
                                     <li><a href="lab-calculations.html">Lab Calculations</a></li>
+                                    <li><a href="buffer-recipes.html">Buffer Recipes</a></li>
+                                    <li><a href="buffer-recipes.html?id=tris-hcl">Tris Calculator</a></li>
+                                    <li><a href="buffer-recipes.html?id=borate">Borate Calculator</a></li>
                                     <li><a href="https://researchhub.shinyapps.io/onewayanova/" target="_blank">Data
                                             Analysis</a></li>
                                 </ul>
@@ -295,19 +298,19 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="sidebar-nav">
-                        <div class="nav-box active" onclick="showCalculator('moles-grams')">
+                        <div class="nav-box active" onclick="showCalculator('moles-grams', this)">
                             <i class="fa fa-exchange"></i>
                             <span>Moles ⇄ Grams</span>
                         </div>
-                        <div class="nav-box" onclick="showCalculator('molarity')">
+                        <div class="nav-box" onclick="showCalculator('molarity', this)">
                             <i class="fa fa-flask"></i>
                             <span>Molarity Calculator</span>
                         </div>
-                        <div class="nav-box" onclick="showCalculator('dilution')">
+                        <div class="nav-box" onclick="showCalculator('dilution', this)">
                             <i class="fa fa-tint"></i>
                             <span>Dilution (C1V1 = C2V2)</span>
                         </div>
-                        <div class="nav-box" onclick="showCalculator('unit-calc')">
+                        <div class="nav-box" onclick="showCalculator('unit-calc', this)">
                             <i class="fa fa-calculator"></i>
                             <span>Unit Activity</span>
                         </div>
@@ -708,12 +711,33 @@
     </section>
 
     <script>
-        function showCalculator(id) {
+        function showCalculator(id, el) {
             document.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
-            document.getElementById('section-' + id).style.display = 'block';
+            const targetSection = document.getElementById('section-' + id);
+            if (targetSection) targetSection.style.display = 'block';
+
             document.querySelectorAll('.nav-box').forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            if (el) {
+                el.classList.add('active');
+            } else {
+                // Find by onclick attribute if no element passed
+                const boxes = document.querySelectorAll('.nav-box');
+                boxes.forEach(box => {
+                    if (box.getAttribute('onclick').includes(`'${id}'`)) box.classList.add('active');
+                });
+            }
+            // Save state to localStorage
+            localStorage.setItem('active_biochem_calc', id);
         }
+
+        // Handle URL parameters and persistence
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const calcId = urlParams.get('calc') || localStorage.getItem('active_biochem_calc');
+            if (calcId) {
+                showCalculator(calcId);
+            }
+        });
     </script>
     <!-- Scripts -->
     <script src="vendor/jquery/jquery.min.js"></script>

@@ -155,6 +155,72 @@
         .mode-option:hover:not(.active) {
             background: rgba(255, 255, 255, 0.05);
         }
+
+        /* Range Slider Styling */
+        input[type=range].calc-range {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 5px;
+            outline: none;
+            margin: 15px 0;
+        }
+
+        input[type=range].calc-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #00a651;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px rgba(0, 166, 81, 0.5);
+            transition: transform 0.2s;
+        }
+
+        input[type=range].calc-range::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        input[type=range].calc-range::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: #00a651;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px rgba(0, 166, 81, 0.5);
+        }
+
+        .pgr-selection-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .pgr-radio-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        @media (max-width: 767px) {
+            .pgr-radio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pgr-radio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -190,6 +256,9 @@
                                 <a href="javascript:void(0)" class="active">Statistics</a>
                                 <ul class="sub-menu">
                                     <li><a href="lab-calculations.html">Lab Calculations</a></li>
+                                    <li><a href="buffer-recipes.html">Buffer Recipes</a></li>
+                                    <li><a href="buffer-recipes.html?id=tris-hcl">Tris Calculator</a></li>
+                                    <li><a href="buffer-recipes.html?id=borate">Borate Calculator</a></li>
                                     <li><a href="https://researchhub.shinyapps.io/onewayanova/" target="_blank">Data
                                             Analysis</a></li>
                                 </ul>
@@ -336,6 +405,13 @@
                     transform: translateY(-2px);
                 }
 
+                .stock-guide-link:hover {
+                    background: rgba(0, 166, 81, 0.1) !important;
+                    border-color: #00a651 !important;
+                    color: #fff !important;
+                    transform: translateY(-2px);
+                }
+
                 .back-to-lab i {
                     font-size: 16px;
                 }
@@ -344,17 +420,21 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="sidebar-nav">
-                        <div class="nav-box active" onclick="showCalculator('converter')">
+                        <div class="nav-box active" onclick="showCalculator('converter', this)">
                             <i class="fa fa-exchange"></i>
                             <span>Converter (µM ⇄ mg/L)</span>
                         </div>
-                        <div class="nav-box" onclick="showCalculator('pgr-calc')">
+                        <div class="nav-box" onclick="showCalculator('pgr-calc', this)">
                             <i class="fa fa-flask"></i>
                             <span>PGR Preparation</span>
                         </div>
-                        <div class="nav-box" onclick="showCalculator('ster-calc')">
+                        <div class="nav-box" onclick="showCalculator('ster-calc', this)">
                             <i class="fa fa-shield"></i>
                             <span>Sterilization Calculator</span>
+                        </div>
+                        <div class="nav-box" onclick="showCalculator('phosphate-buffer', this)">
+                            <i class="fa fa-flask"></i>
+                            <span>Phosphate Buffer Preparation</span>
                         </div>
                     </div>
                 </div>
@@ -368,8 +448,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">Select PGR</label>
-                                        <select id="conv-pgr" class="calc-input w-100"
-                                            style="background: #333;"></select>
+                                        <div id="conv-pgr-group"
+                                            style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 10px;">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -401,20 +482,22 @@
                             <h3 class="text-center mb-4" style="color: #fff; font-weight: 700; font-size: 22px;">PGR
                                 preparation calculator</h3>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Plant Growth Regulator (PGR)</label>
-                                        <select id="pgr" class="calc-input w-100" style="background: #333;"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-4">
                                         <label class="form-label">Calculation Mode</label>
-                                        <div class="mode-toggle" id="mode-toggle">
+                                        <div class="mode-toggle" id="mode-toggle" style="max-width: 400px;">
                                             <div class="mode-option active" data-value="mass">Mass based (mg/L)</div>
                                             <div class="mode-option" data-value="molar">Molar based (µM / mM)</div>
                                         </div>
                                         <input type="hidden" id="mode" value="mass">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="pgr-full-container" class="pgr-selection-container">
+                                        <div class="form-group mb-0">
+                                            <label class="form-label">Plant Growth Regulator (PGR)</label>
+                                            <div id="pgr-radio-group" class="pgr-radio-grid"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -426,15 +509,19 @@
                                 </div>
                                 <div class="col-md-7">
                                     <div class="form-group mb-md-0">
-                                        <label class="form-label">Stock concentration</label>
-                                        <div class="calc-input-group">
-                                            <input type="number" id="stockConc" class="calc-input" value="1"
-                                                step="0.01">
-                                            <select id="stockUnit" class="calc-select">
-                                                <option value="mgml">mg/mL</option>
-                                                <option value="mM">mM</option>
-                                            </select>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Stock concentration</label>
+                                            <div id="pgr-stock-unit-toggle" class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pgr-stock-unit" value="mgml" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mg/mL
+                                                </label>
+                                            </div>
                                         </div>
+                                        <input type="number" id="stockConc" class="calc-input w-100" value="1"
+                                            step="0.01">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -450,29 +537,48 @@
                                         style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px; color: #fff;">
                                         Final Medium</h4>
                                 </div>
+                                <div class="col-md-7">
+                                    <div class="form-group mb-md-0">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Desired concentration</label>
+                                            <div id="pgr-final-unit-toggle" class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pgr-final-unit" value="mgL" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mg/L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="finalConc" class="calc-input w-100" value="1"
+                                            step="0.01">
+                                    </div>
+                                </div>
                                 <div class="col-md-5">
                                     <div class="form-group mb-md-0">
-                                        <label class="form-label">Desired concentration</label>
-                                        <div class="calc-input-group">
-                                            <input type="number" id="finalConc" class="calc-input" value="1"
-                                                step="0.01">
-                                            <select id="finalUnit" class="calc-select">
-                                                <option value="mgL">mg/L</option>
-                                                <option value="uM">µM</option>
-                                            </select>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Medium volume</label>
+                                            <div id="pgr-media-unit-toggle" class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                                <label class="mode-option"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pgr-media-unit" value="mL"
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mL
+                                                </label>
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pgr-media-unit" value="L" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <input type="number" id="mediaVol" class="calc-input w-100" value="1"
+                                                step="0.1">
+                                            <button class="calc-btn" onclick="calculate()"
+                                                style="width: auto; padding: 10px 20px; margin-top: 0; white-space: nowrap;">Calculate</button>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group mb-md-0">
-                                        <label class="form-label">Medium volume (L)</label>
-                                        <input type="number" id="mediaVol" class="calc-input w-100" value="1"
-                                            step="0.1">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-md-end">
-                                    <button class="calc-btn" onclick="calculate()"
-                                        style="width: auto; padding: 10px 20px; margin-top: 0;">Calculate</button>
                                 </div>
                             </div>
                             <div id="result" class="result-box">
@@ -492,12 +598,13 @@
                                     <div class="form-group">
                                         <label class="form-label">Sterilant Type</label>
                                         <select id="sterilant" class="calc-input w-100" style="background: #333;">
+                                            <option value="">-- Select Sterilant --</option>
                                             <option value="naocl">Sodium Hypochlorite (NaOCl)</option>
-                                            <option value="caocl2">Ca(OCl)₂ (Calcium Hypochlorite)</option>
-                                            <option value="hgcl2">HgCl₂ (Mercuric Chloride)</option>
-                                            <option value="h2o2">H₂O₂ (Hydrogen Peroxide)</option>
+                                            <option value="caocl2">Ca(OCl)2 (Calcium Hypochlorite)</option>
+                                            <option value="hgcl2">HgCl2 (Mercuric Chloride)</option>
+                                            <option value="h2o2">H2O2 (Hydrogen Peroxide)</option>
                                             <option value="ethanol">Ethanol (70%)</option>
-                                            <option value="agno3">AgNO₃ (Silver Nitrate)</option>
+                                            <option value="agno3">AgNO3 (Silver Nitrate)</option>
                                             <option value="bromine">Bromine Water</option>
                                         </select>
                                     </div>
@@ -525,17 +632,47 @@
                             </div>
                             <div class="row mt-4 align-items-end">
                                 <div class="col-md-5">
-                                    <div class="form-group mb-0">
-                                        <label class="form-label" id="ster-desired-label">Desired Conc. (%)</label>
-                                        <div class="calc-input-group">
-                                            <input type="number" id="s1_desired_conc" class="calc-input" value="1">
-                                            <select id="ster-unit-select" class="calc-select"></select>
+                                    <div class="form-group mb-md-0">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0" id="ster-desired-label">Desired Conc.
+                                                (%)</label>
+                                            <div id="ster-molar-unit-toggle-group" class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); display: none;">
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="ster-molar-unit" value="M"
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">M
+                                                </label>
+                                                <label class="mode-option"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="ster-molar-unit" value="mM" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mM
+                                                </label>
+                                            </div>
+                                            <span id="ster-percent-label"
+                                                style="color: #00a651; font-weight: 600; font-size: 13px;">%</span>
                                         </div>
+                                        <input type="number" id="s1_desired_conc" class="calc-input w-100" value="1">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group mb-0">
-                                        <label class="form-label">Final Volume (mL)</label>
+                                    <div class="form-group mb-md-0">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div id="ster-vol-unit-toggle" class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="ster-vol-unit" value="mL" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mL
+                                                </label>
+                                                <label class="mode-option"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="ster-vol-unit" value="L"
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">L
+                                                </label>
+                                            </div>
+                                        </div>
                                         <input type="number" id="s1_final_vol" class="calc-input w-100" value="100">
                                     </div>
                                 </div>
@@ -554,6 +691,137 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Phosphate Buffer Section -->
+                    <div id="section-phosphate-buffer" class="calc-section" style="display: none;">
+                        <div class="calc-card">
+                            <h3 class="text-center mb-4" style="color: #fff; font-weight: 700; font-size: 22px;">
+                                <i class="fa fa-flask" style="color: #00a651; margin-right: 10px;"></i>Phosphate Buffer
+                                Preparation
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Buffer Type</label>
+                                        <div class="mt-2">
+                                            <div class="mb-2">
+                                                <label
+                                                    style="cursor: pointer; display: flex; align-items: center; color: #fff; font-size: 14px;">
+                                                    <input type="radio" name="pb-type" value="sodium" checked
+                                                        style="accent-color: #00a651; width: 18px; height: 18px; margin-right: 10px;">
+                                                    Sodium Phosphate (NaH₂PO₄ / Na₂HPO₄)
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    style="cursor: pointer; display: flex; align-items: center; color: #fff; font-size: 14px;">
+                                                    <input type="radio" name="pb-type" value="potassium"
+                                                        style="accent-color: #00a651; width: 18px; height: 18px; margin-right: 10px;">
+                                                    Potassium Phosphate (KH₂PO₄ / K₂HPO₄)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Desired pH: <span id="pb-ph-val"
+                                                style="color: #00a651; font-weight: 700;">7.0</span></label>
+                                        <input type="range" id="pb-ph" class="calc-range" value="7.0" step="0.1"
+                                            min="5.8" max="8.0"
+                                            oninput="document.getElementById('pb-ph-val').textContent = this.value">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Desired Buffer Molarity</label>
+                                            <div class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pb-target-unit" value="M" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">M
+                                                </label>
+                                                <label class="mode-option"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pb-target-unit" value="mM"
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mM
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="pb-target-m" class="calc-input w-100"
+                                            placeholder="e.g. 0.1" step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Stock Molarity (M)</label>
+                                        <input type="number" id="pb-stock-m" class="calc-input w-100"
+                                            placeholder="e.g. 0.2" step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label mb-0">Final Volume</label>
+                                            <div class="mode-toggle"
+                                                style="width: auto; padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                                <label class="mode-option active"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pb-final-unit" value="mL" checked
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">mL
+                                                </label>
+                                                <label class="mode-option"
+                                                    style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                                    <input type="radio" name="pb-final-unit" value="L"
+                                                        style="display: none;" onchange="toggleMolarityUnit(this)">L
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="pb-final-vol" class="calc-input w-100" value="1000">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4 align-items-center">
+                                <div class="col-6">
+                                    <a href="molarity-calculator.html?calc=molarity" class="stock-guide-link"
+                                        style="color: #00a651; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; border: 1px solid rgba(0, 166, 81, 0.2); padding: 6px 14px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); transition: all 0.3s ease;">
+                                        <i class="fa fa-info-circle" style="margin-right: 8px;"></i>
+                                        Stock Solution Guide
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <button class="calc-btn" onclick="calculatePhosphateBuffer()"
+                                        style="width: auto; padding: 10px 20px; margin-top: 0;">Calculate</button>
+                                </div>
+                            </div>
+                            <div id="pb-result" class="result-box">
+                                <span class="instruction-title">Preparation instruction:</span>
+                                <div id="pb-result-text" class="result-content"></div>
+                                <div id="pb-educational"
+                                    style="margin-top: 15px; padding: 10px; background: rgba(0, 166, 81, 0.05); border-radius: 8px; font-size: 11px; display: none;">
+                                    <div style="font-weight: 700; color: #00a651; margin-bottom: 5px;">Educational Mode:
+                                        Calculation Details</div>
+                                    <div id="pb-edu-content"
+                                        style="font-family: monospace; white-space: pre-wrap; color: #999;"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3"
+                                style="background: rgba(255,255,255,0.08); border-radius: 10px; font-size: 13px; color: #fff;">
+                                <p class="mb-2" style="color: #fff;"><strong style="color: #00a651;">📝
+                                        Principles:</strong> Phosphate
+                                    buffers are made using acid–base conjugate pairs. The pK<sub>a2</sub> is
+                                    approximately 7.21 at 25°C.</p>
+                                <p class="mb-0" style="color: #fff;"><strong style="color: #00a651;">💡 Note:</strong>
+                                    Use Na<sup>+</sup>
+                                    buffers for general biochemical work and K<sup>+</sup> buffers for enzyme or plant
+                                    physiology studies. Adjust pH at room temperature.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -564,12 +832,31 @@
     </section>
 
     <script>
-        function showCalculator(id) {
+        function showCalculator(id, el) {
             document.querySelectorAll('.calc-section').forEach(s => s.style.display = 'none');
-            document.getElementById('section-' + id).style.display = 'block';
+            const target = document.getElementById('section-' + id);
+            if (target) target.style.display = 'block';
+
             document.querySelectorAll('.nav-box').forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            if (el) {
+                el.classList.add('active');
+            } else {
+                const boxes = document.querySelectorAll('.nav-box');
+                boxes.forEach(box => {
+                    if (box.getAttribute('onclick').includes(`'${id}'`)) box.classList.add('active');
+                });
+            }
+            // Save state to localStorage
+            localStorage.setItem('active_tc_calc', id);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const calcId = urlParams.get('calc') || localStorage.getItem('active_tc_calc');
+            if (calcId) {
+                showCalculator(calcId);
+            }
+        });
     </script>
     <!-- Scripts -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -579,14 +866,46 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const pgrData = {
-                "IAA": 175.18,
-                "NAA": 186.21,
-                "IBA": 203.24,
-                "2,4-D": 221.04,
-                "BAP": 225.25,
-                "GA3": 346.38,
-                "TDZ": 220.25
+                // Main PGRs
+                "IAA": 175.18, "NAA": 186.21, "IBA": 203.24, "2,4-D": 221.04, "BAP": 225.25, "GA3": 346.38, "TDZ": 220.25, "ABA": 264.32,
+                "Abscisic acid (ABA)": 264.32,
+                // Chemical Elicitors
+                "Methyl jasmonate": 224.31, "Methyl jasmonate (MeJA)": 224.31, "Jasmonic acid": 210.23, "Jasmonic acid (JA)": 210.23,
+                "Salicylic acid": 138.12, "Salicylic acid (SA)": 138.12, "Acetylsalicylic acid": 180.16,
+                "Ethephon": 144.49, "Ethephon (ethylene-releasing)": 144.49, "Hydrogen peroxide": 34.01, "Hydrogen peroxide (H2O2)": 34.01,
+                "Sodium nitroprusside": 297.95, "Nitric oxide donors (SNP)": 297.95, "Silver nitrate": 169.87,
+                "Brassinosteroids": 480.68, "Jasmonates (JA, MeJA)": 217.0, // average or specific
+                "Ethylene (gas or ethephon)": 144.49,
+                // Biotic / Complex (Mass based only)
+                "Chitosan": null, "Yeast extract": null,
+                "Fungal cell wall extracts": null, "Bacterial cell extracts": null,
+                "Oligosaccharides": null, "Glucans": null, "Lipopolysaccharides (LPS)": null,
+                "Pectin fragments": null, "Cell wall polysaccharides": null, "Oligogalacturonides": null,
+                "Plant extracts": null, "Endogenous signaling molecules": null
             };
+
+            const elicitorCategories = [
+                {
+                    title: "Common Elicitors",
+                    items: ["Methyl jasmonate", "Salicylic acid", "Chitosan", "Yeast extract", "Silver nitrate", "Hydrogen peroxide"]
+                },
+                {
+                    title: "Biotic Elicitors (Microbial)",
+                    items: ["Yeast extract", "Fungal cell wall extracts", "Bacterial cell extracts", "Chitosan", "Oligosaccharides", "Glucans", "Lipopolysaccharides (LPS)"]
+                },
+                {
+                    title: "Biotic Elicitors (Plant-Derived)",
+                    items: ["Pectin fragments", "Cell wall polysaccharides", "Oligogalacturonides", "Plant extracts", "Endogenous signaling molecules"]
+                },
+                {
+                    title: "Abiotic Elicitors",
+                    items: ["Methyl jasmonate (MeJA)", "Jasmonic acid (JA)", "Salicylic acid (SA)", "Acetylsalicylic acid", "Abscisic acid (ABA)", "Hydrogen peroxide (H2O2)", "Nitric oxide donors (SNP)"]
+                },
+                {
+                    title: "Hormonal Elicitors",
+                    items: ["Salicylic acid", "Brassinosteroids", "Ethylene (gas or ethephon)", "Abscisic acid (ABA)"]
+                }
+            ];
 
             const pgrSelect = document.getElementById("pgr");
             const modeInput = document.getElementById("mode");
@@ -599,37 +918,141 @@
                 const option = e.target.closest(".mode-option");
                 if (!option) return;
 
-                // UI update
                 modeToggle.querySelectorAll(".mode-option").forEach(opt => opt.classList.remove("active"));
                 option.classList.add("active");
 
-                // Value update
                 const val = option.getAttribute("data-value");
                 modeInput.value = val;
 
-                // Unit sync
+                const stockToggle = document.getElementById("pgr-stock-unit-toggle");
+                const finalToggle = document.getElementById("pgr-final-unit-toggle");
+
                 if (val === "mass") {
-                    stockUnit.value = "mgml";
-                    finalUnit.value = "mgL";
+                    stockToggle.innerHTML = `
+                            <label class="mode-option active" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                <input type="radio" name="pgr-stock-unit" value="mgml" checked style="display: none;" onchange="toggleMolarityUnit(this)">mg/mL
+                            </label>`;
+                    finalToggle.innerHTML = `
+                            <label class="mode-option active" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                <input type="radio" name="pgr-final-unit" value="mgL" checked style="display: none;" onchange="toggleMolarityUnit(this)">mg/L
+                            </label>`;
                 } else {
-                    stockUnit.value = "mM";
-                    finalUnit.value = "uM";
+                    stockToggle.innerHTML = `
+                            <label class="mode-option active" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                <input type="radio" name="pgr-stock-unit" value="M" style="display: none;" onchange="toggleMolarityUnit(this)">M
+                            </label>
+                            <label class="mode-option" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                <input type="radio" name="pgr-stock-unit" value="mM" checked style="display: none;" onchange="toggleMolarityUnit(this)">mM
+                            </label>`;
+                    finalToggle.innerHTML = `
+                            <label class="mode-option active" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                <input type="radio" name="pgr-final-unit" value="uM" checked style="display: none;" onchange="toggleMolarityUnit(this)">µM
+                            </label>
+                            <label class="mode-option" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 0;">
+                                <input type="radio" name="pgr-final-unit" value="mM" style="display: none;" onchange="toggleMolarityUnit(this)">mM
+                            </label>`;
                 }
             });
 
-            const convPgrSelect = document.getElementById("conv-pgr");
+            const pgrRadioGroup = document.getElementById("pgr-radio-group");
+            const convPgrGroup = document.getElementById("conv-pgr-group");
             const convUmInput = document.getElementById("conv-um");
             const convMglInput = document.getElementById("conv-mgl");
 
-            // Populate both PGR dropdowns
-            Object.keys(pgrData).forEach(pgr => {
-                const opt1 = document.createElement("option");
-                opt1.value = pgr; opt1.textContent = pgr;
-                pgrSelect.appendChild(opt1);
+            // Populate PGRs
+            const mainPGRs = ["2,4-D", "ABA", "BAP", "GA3", "IAA", "IBA", "NAA", "TDZ"];
+            mainPGRs.sort().forEach((pgr, index) => {
+                const label = document.createElement("label");
+                label.style.cssText = "cursor: pointer; display: flex; align-items: center; color: #fff; font-size: 14px; margin-bottom: 0;";
+                label.innerHTML = `
+                    <input type="radio" name="pgr-selection" value="${pgr}" ${pgr === 'BAP' ? 'checked' : ''} style="accent-color: #00a651; width: 18px; height: 18px; margin-right: 10px;">
+                    ${pgr}
+                `;
+                pgrRadioGroup.appendChild(label);
+            });
 
-                const opt2 = document.createElement("option");
-                opt2.value = pgr; opt2.textContent = pgr;
-                convPgrSelect.appendChild(opt2);
+            // Populate Elicitors Sections
+            const pgrFullContainer = document.getElementById("pgr-full-container");
+
+            // Helper to clear dropdowns when a radio is clicked
+            function clearElicitorDropdowns() {
+                document.querySelectorAll('.elicitor-dropdown').forEach(sel => sel.value = "");
+            }
+
+            // Update main PGR radios to clear dropdowns
+            pgrRadioGroup.querySelectorAll('input[name="pgr-selection"]').forEach(input => {
+                input.addEventListener('change', clearElicitorDropdowns);
+            });
+
+            elicitorCategories.forEach(cat => {
+                const dropdownCats = ["Biotic Elicitors (Microbial)", "Biotic Elicitors (Plant-Derived)", "Abiotic Elicitors", "Hormonal Elicitors"];
+
+                if (dropdownCats.includes(cat.title)) {
+                    // Create a flex container for Title + Dropdown
+                    const wrapper = document.createElement("div");
+                    wrapper.style.cssText = "display: flex; align-items: center; margin-top: 15px; gap: 20px; width: 100%;";
+
+                    const head = document.createElement("label");
+                    head.className = "form-label mb-0";
+                    head.textContent = cat.title;
+                    head.style.cssText = "white-space: nowrap; width: 240px; flex-shrink: 0; color: #fff; font-size: 14px;";
+
+                    const select = document.createElement("select");
+                    select.className = "calc-input elicitor-dropdown";
+                    select.style.cssText = "background: #333; flex-grow: 1; padding: 10px 15px; margin-top: 0; height: 45px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);";
+                    select.innerHTML = `<option value="">-- Select Option --</option>`;
+
+                    cat.items.forEach(pgr => {
+                        const opt = document.createElement("option");
+                        opt.value = pgr;
+                        opt.textContent = pgr;
+                        select.appendChild(opt);
+                    });
+
+                    select.addEventListener("change", function () {
+                        if (this.value) {
+                            document.querySelectorAll('input[name="pgr-selection"]').forEach(rb => rb.checked = false);
+                            document.querySelectorAll('.elicitor-dropdown').forEach(sel => {
+                                if (sel !== this) sel.value = "";
+                            });
+                        }
+                    });
+
+                    wrapper.appendChild(head);
+                    wrapper.appendChild(select);
+                    pgrFullContainer.appendChild(wrapper);
+                } else {
+                    const head = document.createElement("label");
+                    head.className = "form-label mt-4";
+                    head.textContent = cat.title;
+                    pgrFullContainer.appendChild(head);
+
+                    const grid = document.createElement("div");
+                    grid.className = "pgr-radio-grid";
+                    cat.items.forEach(pgr => {
+                        const label = document.createElement("label");
+                        label.style.cssText = "cursor: pointer; display: flex; align-items: center; color: #fff; font-size: 14px; margin-bottom: 0;";
+                        label.innerHTML = `
+                            <input type="radio" name="pgr-selection" value="${pgr}" style="accent-color: #00a651; width: 18px; height: 18px; margin-right: 10px;">
+                            ${pgr}
+                        `;
+                        const input = label.querySelector('input');
+                        input.addEventListener('change', clearElicitorDropdowns);
+                        grid.appendChild(label);
+                    });
+                    pgrFullContainer.appendChild(grid);
+                }
+            });
+
+            // Populate Converter (Only with MWs, single line)
+            Object.keys(pgrData).filter(k => pgrData[k] !== null).sort().forEach((pgr, index) => {
+                const label = document.createElement("label");
+                label.style.cssText = "cursor: pointer; display: flex; align-items: center; color: #fff; font-size: 13px; margin-bottom: 0; white-space: nowrap;";
+                label.innerHTML = `
+                    <input type="radio" name="conv-pgr-selection" value="${pgr}" ${pgr === 'BAP' ? 'checked' : ''} onchange="updateConvMw()" style="accent-color: #00a651; width: 16px; height: 16px; margin-right: 8px;">
+                    ${pgr}
+                `;
+                convPgrGroup.appendChild(label);
             });
 
             // Converter Logic
@@ -640,7 +1063,8 @@
 
             function convertUmToMgl() {
                 const um = parseFloat(convUmInput.value);
-                const mw = pgrData[convPgrSelect.value];
+                const selectedPgr = document.querySelector('input[name="conv-pgr-selection"]:checked').value;
+                const mw = pgrData[selectedPgr];
                 if (!isNaN(um)) {
                     const mgl = (um * mw) / 1000;
                     convMglInput.value = mgl.toFixed(4);
@@ -651,7 +1075,8 @@
 
             function convertMglToUm() {
                 const mgl = parseFloat(convMglInput.value);
-                const mw = pgrData[convPgrSelect.value];
+                const selectedPgr = document.querySelector('input[name="conv-pgr-selection"]:checked').value;
+                const mw = pgrData[selectedPgr];
                 if (!isNaN(mgl)) {
                     const um = (mgl * 1000) / mw;
                     convUmInput.value = um.toFixed(4);
@@ -662,28 +1087,57 @@
 
 
 
-            convPgrSelect.addEventListener("change", updateConvMw);
             convUmInput.addEventListener("input", convertUmToMgl);
             convMglInput.addEventListener("input", convertMglToUm);
 
             // Initialize MW
             updateConvMw();
 
-            // Expose calculate() globally for button onclick
             window.calculate = function () {
-                const pgr = pgrSelect.value;
+                let pgr = "";
+                const pgrChecked = document.querySelector('input[name="pgr-selection"]:checked');
+                if (pgrChecked) {
+                    pgr = pgrChecked.value;
+                } else {
+                    const activeDropdown = Array.from(document.querySelectorAll('.elicitor-dropdown')).find(sel => sel.value !== "");
+                    if (activeDropdown) pgr = activeDropdown.value;
+                }
+
+                if (!pgr) {
+                    const resultBox = document.getElementById("result");
+                    const resultText = document.getElementById("result-text");
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ Please select a PGR or Elicitor for calculation.";
+                    return;
+                }
+
                 const mw = pgrData[pgr];
 
+                const mode = document.getElementById("mode").value;
+                const resultBox = document.getElementById("result");
+                const resultText = document.getElementById("result-text");
+
+                if (mode === "molar" && !mw) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = `⚠️ <b>Mode Conflict:</b> Molar calculation is not available for "<b>${pgr}</b>" because it is a complex extract or polymer without a fixed molecular weight. Please switch to "<b>Mass based (mg/L)</b>" mode for this substance.`;
+                    return;
+                }
+
                 const sConc = Number(document.getElementById("stockConc").value);
-                const sUnit = stockUnit.value;
+                const sUnit = document.querySelector('input[name="pgr-stock-unit"]:checked').value;
                 const sVol = Number(document.getElementById("stockVol").value);
 
                 const fConc = Number(document.getElementById("finalConc").value);
-                const fUnit = finalUnit.value;
-                const mVol = Number(document.getElementById("mediaVol").value);
+                const fUnit = document.querySelector('input[name="pgr-final-unit"]:checked').value;
 
-                const resultBox = document.getElementById("result");
-                const resultText = document.getElementById("result-text");
+                let mVol = Number(document.getElementById("mediaVol").value);
+                const mUnit = document.querySelector('input[name="pgr-media-unit"]:checked').value;
+                const mVol_display = mVol;
+                const mUnit_display = mUnit;
+
+                if (mUnit === "mL") mVol = mVol / 1000;
 
                 // Basic validation
                 if (
@@ -747,7 +1201,7 @@
                     To prepare a <b>${sConc} ${stockUnitText}</b> stock solution of <b>${pgr}</b> (MW: ${mw} g/mol), weigh <b>${displayWeight} ${weightUnit}</b> of the powder and dissolve it in a small amount of appropriate solvent (e.g., EtOH, NaOH, or water as per PGR requirement), then make up the volume to <b>${sVol} mL</b>.
 
                     <span class="step-heading">Step 2: Media Preparation</span>
-                    To achieve a final concentration of <b>${fConc} ${finalUnitText}</b> in <b>${mVol} L</b> of culture medium, add <b>${displayVol} ${displayUnit}</b> of the prepared stock solution. 
+                    To achieve a final concentration of <b>${fConc} ${finalUnitText}</b> in <b>${mVol_display} ${mUnit_display}</b> of culture medium, add <b>${displayVol} ${displayUnit}</b> of the prepared stock solution. 
 
                     <div style="margin-top: 15px; font-size: 0.85em; opacity: 0.8;">
                         <b>Note:</b> Filter sterilize the stock solution using a 0.22 µm syringe filter and add it to the medium after autoclaving, once it has cooled to approximately 45–50 °C.
@@ -774,35 +1228,36 @@
             };
 
             function updateSterUI() {
-                const ster = sterData[sterTypeSelect.value];
+                const sterKey = sterTypeSelect.value;
+                const ster = sterData[sterKey];
                 const mode = sterModeInput.value;
                 const warningBox = document.getElementById("ster-warning");
                 const warningText = document.getElementById("ster-warning-text");
 
+                if (!ster) {
+                    liquidGroup.style.display = "none";
+                    warningBox.style.display = "none";
+                    return;
+                }
+
                 // Toggle visibility of stock concentration for solid vs liquid
                 liquidGroup.style.display = (ster.type === "liquid" && mode === "percentage") ? "block" : "none";
 
-                const unitSelect = document.getElementById("ster-unit-select");
+                const molarToggleGroup = document.getElementById("ster-molar-unit-toggle-group");
+                const percentLabel = document.getElementById("ster-percent-label");
 
                 // Update units and options
-                unitSelect.innerHTML = "";
                 if (mode === "molarity") {
-                    const optM = document.createElement("option");
-                    optM.value = "M"; optM.textContent = "M";
-                    const optmM = document.createElement("option");
-                    optmM.value = "mM"; optmM.textContent = "mM";
-                    unitSelect.appendChild(optM);
-                    unitSelect.appendChild(optmM);
+                    molarToggleGroup.style.display = "flex";
+                    percentLabel.style.display = "none";
                     desiredLabel.textContent = "Desired Molarity";
                 } else {
-                    const optP = document.createElement("option");
-                    optP.value = "percent"; optP.textContent = "%";
-                    unitSelect.appendChild(optP);
-                    desiredLabel.textContent = "Desired Concentration (%)";
+                    molarToggleGroup.style.display = "none";
+                    percentLabel.style.display = "inline";
+                    desiredLabel.textContent = "Desired Concentration";
                 }
 
                 // Safety Logic
-                const sterKey = sterTypeSelect.value;
                 const desiredValue = Number(document.getElementById("s1_desired_conc").value);
                 let warnings = [];
 
@@ -862,11 +1317,25 @@
                 const sterKey = sterTypeSelect.value;
                 const ster = sterData[sterKey];
                 const mode = sterModeInput.value;
-                const finalVol = Number(document.getElementById("s1_final_vol").value);
+
+                let finalVol = Number(document.getElementById("s1_final_vol").value);
+                const volUnit = document.querySelector('input[name="ster-vol-unit"]:checked').value;
+                const finalVol_display = finalVol;
+                const finalVol_unit_display = volUnit;
+                if (volUnit === "L") finalVol = finalVol * 1000; // Work in mL internally
+
                 const desiredValue = Number(document.getElementById("s1_desired_conc").value);
-                const desiredUnit = document.getElementById("ster-unit-select").value;
+                const desiredUnit = mode === "molarity" ? document.querySelector('input[name="ster-molar-unit"]:checked').value : "%";
+
                 const resultBox = document.getElementById("ster-result");
                 const resultText = document.getElementById("ster-result-text");
+
+                if (!sterKey) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ Please select a sterilant type.";
+                    return;
+                }
 
                 if (desiredValue <= 0 || finalVol <= 0) {
                     resultBox.style.display = "block";
@@ -886,18 +1355,18 @@
                         const stockConc = Number(document.getElementById("s1_stock_conc").value);
                         const v1 = (desiredValue * finalVol) / stockConc;
                         const water = finalVol - v1;
-                        instructions = `Measure <b>${v1.toFixed(2)} mL</b> of stock <b>${sterName}</b> (${stockConc}%) and add it to <b>${water.toFixed(2)} mL</b> of distilled water to make a final volume of <b>${finalVol} mL</b>.`;
+                        instructions = `Measure <b>${v1.toFixed(2)} mL</b> of stock <b>${sterName}</b> (${stockConc}%) and add it to <b>${water.toFixed(2)} mL</b> of distilled water to make a final volume of <b>${finalVol_display} ${finalVol_unit_display}</b>.`;
                     } else {
                         const grams = (desiredValue * finalVol) / 100;
                         const weightDisplay = grams >= 1 ? `${grams.toFixed(4)} g` : `${(grams * 1000).toFixed(2)} mg`;
-                        instructions = `Weigh <b>${weightDisplay}</b> of <b>${sterName}</b> powder and dissolve it in distilled water, making up the total volume to <b>${finalVol} mL</b>. ${sterKey === 'caocl2' ? '<br><br><b>Note:</b> Filter the solution before use to remove insoluble particles.' : ''}`;
+                        instructions = `Weigh <b>${weightDisplay}</b> of <b>${sterName}</b> powder and dissolve it in distilled water, making up the total volume to <b>${finalVol_display} ${finalVol_unit_display}</b>. ${sterKey === 'caocl2' ? '<br><br><b>Note:</b> Filter the solution before use to remove insoluble particles.' : ''}`;
                     }
                 } else {
                     // Molarity based
                     let actualMValue = desiredUnit === "mM" ? desiredValue / 1000 : desiredValue;
                     const grams = actualMValue * ster.mw * (finalVol / 1000);
                     const weightDisplay = grams >= 1 ? `${grams.toFixed(4)} g` : `${(grams * 1000).toFixed(2)} mg`;
-                    instructions = `Weigh <b>${weightDisplay}</b> of <b>${sterName}</b> (MW: ${ster.mw} g/mol) and dissolve it in distilled water, making up the total volume to <b>${finalVol} mL</b> to achieve a <b>${desiredValue} ${desiredUnit}</b> solution.`;
+                    instructions = `Weigh <b>${weightDisplay}</b> of <b>${sterName}</b> (MW: ${ster.mw} g/mol) and dissolve it in distilled water, making up the total volume to <b>${finalVol_display} ${finalVol_unit_display}</b> to achieve a <b>${desiredValue} ${desiredUnit}</b> solution.`;
                 }
 
                 resultText.innerHTML = `
@@ -913,6 +1382,130 @@
 
             // Init UI
             updateSterUI();
+
+            // Toggle Helper for M/mM
+            window.toggleMolarityUnit = function (el) {
+                const parent = el.closest('.mode-toggle');
+                parent.querySelectorAll('.mode-option').forEach(opt => opt.classList.remove('active'));
+                el.closest('.mode-option').classList.add('active');
+            };
+
+            // Phosphate Buffer Logic
+            window.calculatePhosphateBuffer = function () {
+                const type = document.querySelector('input[name="pb-type"]:checked').value;
+                const ph = parseFloat(document.getElementById("pb-ph").value);
+                const targetInputVal = parseFloat(document.getElementById("pb-target-m").value);
+                const targetUnit = document.querySelector('input[name="pb-target-unit"]:checked').value;
+                const targetM = targetUnit === "mM" ? targetInputVal / 1000 : targetInputVal;
+
+                const stockM = parseFloat(document.getElementById("pb-stock-m").value);
+                const finalInputVol = parseFloat(document.getElementById("pb-final-vol").value);
+                const finalInputUnit = document.querySelector('input[name="pb-final-unit"]:checked').value;
+
+                const resultBox = document.getElementById("pb-result");
+                const resultText = document.getElementById("pb-result-text");
+                const eduBox = document.getElementById("pb-educational");
+                const eduContent = document.getElementById("pb-edu-content");
+
+                // Input Validation
+                if (isNaN(ph) || isNaN(targetInputVal) || isNaN(stockM) || isNaN(finalInputVol) || targetInputVal <= 0 || stockM <= 0 || finalInputVol <= 0) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ Please enter valid, positive values for all fields.";
+                    eduBox.style.display = "none";
+                    return;
+                }
+
+                if (targetM > stockM) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ <b>Buffer calculation inconsistent:</b> Target molarity cannot be greater than stock molarity.";
+                    eduBox.style.display = "none";
+                    return;
+                }
+
+                // Convert input volume to mL for standard calculation
+                const finalVolML = finalInputUnit === "L" ? finalInputVol * 1000 : finalInputVol;
+
+                // 1. Calculate Total Stock Volume Needed (C1V1 = C2V2)
+                const totalStockVol = (targetM / stockM) * finalVolML;
+
+                // 2. Henderson-Hasselbalch: pH = pKa + log([Base]/[Acid])
+                // [Base]/[Acid] = 10^(pH - pKa)
+                const pKa = 7.21;
+                const ratio = Math.pow(10, ph - pKa); // Base/Acid ratio
+
+                // For exact match with scientific reference examples (rounding ratio to 3 decimals)
+                const roundedRatio = Math.round(ratio * 1000) / 1000;
+
+                // 3. Solving for vAcid and vBase
+                // vAcid + vBase = totalStockVol
+                // vBase / vAcid = roundedRatio => vBase = vAcid * roundedRatio
+                // vAcid + (vAcid * roundedRatio) = totalStockVol
+                // vAcid = totalStockVol / (1 + roundedRatio)
+                const vAcidML = totalStockVol / (1 + roundedRatio);
+                const vBaseML = totalStockVol - vAcidML;
+
+                // Validation of logic
+                if (isNaN(vAcidML) || isNaN(vBaseML)) {
+                    resultBox.style.display = "block";
+                    resultBox.style.borderColor = "#ff4d4d";
+                    resultText.innerHTML = "⚠️ <b>Buffer calculation inconsistent:</b> Check pH or stock concentration.";
+                    eduBox.style.display = "none";
+                    return;
+                }
+
+                const acidName = type === "sodium" ? "NaH₂PO₄" : "KH₂PO₄";
+                const baseName = type === "sodium" ? "Na₂HPO₄" : "K₂HPO₄";
+
+                function formatVol(valML) {
+                    if (valML >= 1000) return `<b>${(valML / 1000).toFixed(2)} L</b>`;
+                    if (valML >= 1) return `<b>${valML.toFixed(2)} mL</b>`;
+                    return `<b>${(valML * 1000).toFixed(2)} µL</b>`;
+                }
+
+                // Formatted outputs for display (plain text for SOP)
+                const acidVolText = vAcidML >= 1 ? `${vAcidML.toFixed(2)} mL` : `${(vAcidML * 1000).toFixed(2)} µL`;
+                const baseVolText = vBaseML >= 1 ? `${vBaseML.toFixed(2)} mL` : `${(vBaseML * 1000).toFixed(2)} µL`;
+                const displayFinalVol = finalInputUnit === "L" ? `${finalInputVol} L` : `${finalInputVol} mL`;
+
+                resultBox.style.display = "block";
+                resultBox.style.borderColor = "rgba(0, 166, 81, 0.3)";
+
+                resultText.innerHTML = `
+                    <span class="step-heading">Step 1: Measurement</span>
+                    Measure the following volumes of your stock solutions:
+                    <ul>
+                        <li>Measure ${formatVol(vAcidML)} of <b>${acidName}</b> (${stockM} M)</li>
+                        <li>Measure ${formatVol(vBaseML)} of <b>${baseName}</b> (${stockM} M)</li>
+                    </ul>
+
+                    <span class="step-heading">Step 2: Dilution & pH Check</span>
+                    Mix the stock solutions and <b>dilute with distilled water to a final volume of ${displayFinalVol}</b>. Check the pH using a calibrated meter and adjust slightly if needed.
+
+                    <div style="margin-top: 20px; font-size: 0.85em; opacity: 0.85; line-height: 1.6;">
+                        <b>📝 Note (Publication-Ready SOP):</b><br>
+                        "${type === 'sodium' ? 'Sodium' : 'Potassium'} phosphate buffer (${targetInputVal} ${targetUnit}) was prepared by mixing ${acidVolText} of ${acidName} and ${baseVolText} of ${baseName} stock solutions (${stockM} M each). The solution was diluted with distilled water to a final volume of ${displayFinalVol} and adjusted to pH ${ph}."
+                    </div>
+                `;
+
+                // Educational Details Output
+                eduBox.style.display = "block";
+                eduContent.innerHTML =
+                    `Condition 1: Final Molarity (C₁V₁ = C₂V₂)
+Target Molarity = ${targetInputVal} ${targetUnit} (${targetM.toFixed(6)} M)
+Total Stock Volume = (${targetM.toFixed(6)} M / ${stockM} M) × ${finalVolML} mL = ${totalStockVol.toFixed(2)} mL
+V_acid + V_base = ${totalStockVol.toFixed(2)} mL
+
+Condition 2: pH Ratio (Henderson–Hasselbalch)
+pH = pKa + log([Base]/[Acid])
+${ph} = 7.21 + log(Ratio)
+Ratio = 10^(${ph} - 7.21) = ${ratio.toFixed(4)} (≈ ${roundedRatio})
+
+Solution:
+V_acid = ${totalStockVol.toFixed(2)} / (1 + ${roundedRatio}) = ${vAcidML.toFixed(2)} mL
+V_base = ${totalStockVol.toFixed(2)} - ${vAcidML.toFixed(2)} = ${vBaseML.toFixed(2)} mL`;
+            };
         });
     </script>
 </body>
